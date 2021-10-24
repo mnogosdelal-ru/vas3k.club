@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   club_app: &app
-        image: ghcr.io/mnogosdelal/club:latest
+    image: ghcr.io/glader/mnogosdelal.club:latest
     command: make docker-run-production
     container_name: club_app
     environment:
