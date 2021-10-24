@@ -47,5 +47,5 @@ jobs:
           env_WEBHOOK_SECRETS: ${{ secrets.WEBHOOK_SECRETS }}
       - run: echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ${{ env.SSH_KEY }} && chmod 600 ${{ env.SSH_KEY }}
       - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY }} .env ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/var/www/club/.env
-      - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY }} docker-compose.production.yml ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_USERNAME }}:/var/www/club/docker-compose.production.yml
-      - run: ssh -i ${{ env.SSH_KEY }} ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_USERNAME }} "cd /var/www/club && docker login ghcr.io -u glader -p ${{ secrets.TOKEN }} && docker pull ghcr.io/glader/club:latest && docker-compose -f docker-compose.production.yml --env-file=.env up -d"
+      - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY }} docker-compose.production.yml ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/var/www/club/docker-compose.production.yml
+      - run: ssh -i ${{ env.SSH_KEY }} ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }} "cd /var/www/club && docker login ghcr.io -u glader -p ${{ secrets.TOKEN }} && docker pull ghcr.io/glader/club:latest && docker-compose -f docker-compose.production.yml --env-file=.env up -d"
