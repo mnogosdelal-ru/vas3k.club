@@ -14,7 +14,8 @@ jobs:
         with:
           ref: 'club'
       - run: docker login ghcr.io -u glader -p ${{ secrets.TOKEN }}
-      - run: docker build -t ghcr.io/glader/mnogosdelal.club:latest .
+      - run: docker pull ghcr.io/glader/mnogosdelal.club:latest
+      - run: docker build -t ghcr.io/glader/mnogosdelal.club:latest --cache-from=ghcr.io/glader/mnogosdelal.club:latest .
       - run: docker image push ghcr.io/glader/mnogosdelal.club:latest
 
   deploy:
