@@ -1,28 +1,28 @@
 <div class="pay-packages">
     <div>
-        <input type="radio" id="package-year" name="product_code" value="club1" checked>
+        <input type="radio" id="package-year" name="product_code" value="club1m" checked>
         <label for="package-year" class="block pay-package">
-            <div class="pay-package-name">На год</div>
+            <div class="pay-package-name">На месяц</div>
             <div class="pay-package-image">🤘</div>
-            <div class="pay-package-price">€15</div>
+            <div class="pay-package-price">1000 руб.</div>
         </label>
     </div>
 
     <div>
-        <input type="radio" id="package-three" name="product_code" value="club3">
+        <input type="radio" id="package-three" name="product_code" value="club3m">
         <label for="package-three" class="block pay-package">
-            <div class="pay-package-name">На 3 года</div>
+            <div class="pay-package-name">На 3 месяца</div>
             <div class="pay-package-image">😎</div>
-            <div class="pay-package-price">€40</div>
+            <div class="pay-package-price">2000 руб.</div>
         </label>
     </div>
 
     <div>
-        <input type="radio" id="package-hundred" name="product_code" value="club50">
+        <input type="radio" id="package-hundred" name="product_code" value="club1y">
         <label for="package-hundred" class="block pay-package">
-            <div class="pay-package-name">На 50 лет</div>
+            <div class="pay-package-name">На 1 год</div>
             <div class="pay-package-image">🚀</div>
-            <div class="pay-package-price">€150</div>
+            <div class="pay-package-price">6000 руб.</div>
         </label>
     </div>
 </div>
@@ -30,10 +30,11 @@
 <div class="pay-recurrent">
     <label class="block pay-recurrent-block">
         <input type="checkbox" name="is_recurrent" value="true" checked>
-        повторять каждый
-        <select name="recurrent_interval">
-            <option value="monthly">месяц</option>
-            <option value="yearly" selected>год</option>
-        </select>
+        автоматически продлевать
+        <!--select name="recurrent_interval">
+            <option value="monthly" selected>месяц</option>
+            <option value="quarterly">квартал</option>
+            <option value="yearly">год</option>
+        </select-->
     </label>
 </div>
