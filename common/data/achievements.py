@@ -44,7 +44,7 @@ ACHIEVEMENTS = [
     ("org", {
         "name": "За Движ",
         "description": "Ачивка за организацию движух внутри Клуба",
-        "image": "https://vas3k.club/static/images/achievements/org.png",
+        "image": "https://club.mnogosdelal.ru/static/images/achievements/org.png",
         "style": "background-color: #FF4E50; font-size: 185%;",
     }),
     ("offline", {
@@ -94,13 +94,13 @@ ACHIEVEMENTS = [
     ("2020", {
         "name": "2020",
         "description": "Призовое место в итогах 2020 года",
-        "image": "https://vas3k.club/static/images/achievements/2020.png",
+        "image": "https://club.mnogosdelal.ru/static/images/achievements/2020.png",
         "style": "background-color: #FC913A; font-size: 190%;",
     }),
     ("mic", {
         "name": "Золотой микрофон",
         "description": "За выступление на АМА  и митапах в качестве оратора",
-        "image": "https://vas3k.club/static/images/achievements/mic.png",
+        "image": "https://club.mnogosdelal.ru/static/images/achievements/mic.png",
         "style": "background-color: #9370D8; font-size: 130%;",
     }),
     ("hacker_1", {
