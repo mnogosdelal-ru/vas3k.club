@@ -268,7 +268,7 @@ MIN_FRIEND_COMMENT_LENGTH = 250  # notify comments only from a certain length
 MAX_COMMENTS_FOR_DELETE_VS_CLEAR = 10  # number of comments after which the post cannot be deleted
 CLEARED_POST_TEXT = "```\n" \
     "😥 Этот пост был удален самим автором и от него остались лишь комментарии участников. " \
-    "Если вы хотите приютить и развить эту тему как новый автор, напишите модераторам Клуба: moderator@club.mnogosdelal.ru." \
+    "Если вы хотите приютить и развить эту тему как новый автор, напишите модераторам Клуба: club@mnogosdelal.ru." \
     "\n```"
 
 MODERATOR_USERNAME = "moderator"
