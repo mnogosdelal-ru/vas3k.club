@@ -1,0 +1,604 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {% if mode == "edit" %}
+        ДыэРКа — {{ block.super }}
+    {% else %}
+        Новая ДыэРКа — {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="content compose">
+        <div class="content-header">ДыэРКа</div>
+
+        {% if mode == "create" %}
+            <div class="content-description">
+                <p>
+                    ДыэРКа - это Диаграмма Разрешения Конфликтов.
+                    По сути - структурированный пост, способный передать сложную мысль в структурированной форме.
+                </p>
+            </div>
+        {% endif %}
+        </div>
+
+        <div class="content compose">
+
+            <table border="0" cellspacing="0" cellpadding="0" width="853">
+                <tbody>
+                    <tr class="dgm_edgeboxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="267" nowrap="" colspan="4" class="dgm_condbox">
+                            <textarea id="AB" name="AB" width="98%" rows="4">{A-B}
+                            </textarea>
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="272" nowrap="" colspan="4" class="dgm_condbox">
+                            <textarea id="BD" name="BD" width="98%" rows="4">{B-D}
+                            </textarea>
+                        </td>
+                        <td width="59" nowrap="">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="92" nowrap="">
+                        </td>
+                        <td width="25" nowrap="" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="129" nowrap="">
+                        </td>
+                        <td width="59" nowrap="">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="228" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <textarea id="B" name="B" width="98%" rows="4">{B}
+                            </textarea>
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="256" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <textarea id="D" name="D" width="98%" rows="4">{D}
+                            </textarea>
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="92" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="129" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="252" nowrap="" colspan="2" rowspan="4" class="dgm_mainbox">
+                            <textarea id="A" name="A" width="98%" rows="4">{A}
+                            </textarea>
+                        </td>
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="272" nowrap="" colspan="4" rowspan="4" class="dgm_condbox">
+                            <textarea id="DDprime" name="DDprime" width="98%" rows="4">{D-D'}
+                            </textarea>
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink dgm_bottombordercondlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink ">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="92" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="129" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="228" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <textarea id="C" name="C" width="98%" rows="4">{C}
+                            </textarea>
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="256" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <textarea id="Dprime" name="Dprime" width="98%" rows="4">{D'}
+                            </textarea>
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="" valign="bottom">
+                        </td>
+                        <td width="116" nowrap="" valign="bottom">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="" valign="bottom">
+                        </td>
+                        <td width="116" nowrap="" valign="bottom">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom">
+                        </td>
+                        <td width="84" nowrap="" valign="bottom">
+                        </td>
+                        <td width="52" nowrap="" valign="bottom">
+                        </td>
+                        <td width="92" nowrap="" valign="bottom">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom">
+                        </td>
+                        <td width="129" nowrap="" valign="bottom">
+                        </td>
+                        <td width="59" nowrap="" valign="bottom">
+                        </td>
+                        <td width="68" nowrap="" valign="bottom">
+                        </td>
+                    </tr>
+                    <tr class="dgm_edgeboxrow">
+                        <td width="136" nowrap="" valign="bottom">
+                        </td>
+                        <td width="267" nowrap="" colspan="4" class="dgm_condbox">
+                            <textarea id="AC" name="AC" width="98%" rows="4">{A-C}
+                            </textarea>
+                        </td>
+                        <td width="52" nowrap="" valign="bottom">
+                        </td>
+                        <td width="272" nowrap="" colspan="4" class="dgm_condbox">
+                            <textarea id="CDprime" name="CDprime" width="98%" rows="4">{C-D'}
+                            </textarea>
+                        </td>
+                        <td width="59" nowrap="">
+                        </td>
+                        <td width="68" nowrap="" valign="bottom">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <!--table border="0" cellspacing="0" cellpadding="0" width="853">
+                <tbody>
+                    <tr class="dgm_edgeboxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="267" nowrap="" colspan="4" class="dgm_condbox">
+                            <p align="center">
+                                {A-B}
+                            </p>
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="272" nowrap="" colspan="4" class="dgm_condbox">
+                            <p align="center">
+                                {B-D}
+                            </p>
+                        </td>
+                        <td width="59" nowrap="">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="92" nowrap="">
+                        </td>
+                        <td width="25" nowrap="" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="129" nowrap="">
+                        </td>
+                        <td width="59" nowrap="">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="228" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <p align="center">
+                                {B}
+                            </p>
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="256" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <p align="center">
+                                {D}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="92" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="129" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="252" nowrap="" colspan="2" rowspan="4" class="dgm_mainbox">
+                            <p align="center">
+                                {A}
+                            </p>
+                        </td>
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="272" nowrap="" colspan="4" rowspan="4" class="dgm_condbox">
+                            <p align="center">
+                                {D-D'}
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink dgm_bottombordercondlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink ">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="92" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="129" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="228" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <p align="center">
+                                {C}
+                            </p>
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="256" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <p align="center">
+                                {D'}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="" valign="bottom">
+                        </td>
+                        <td width="116" nowrap="" valign="bottom">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="" valign="bottom">
+                        </td>
+                        <td width="116" nowrap="" valign="bottom">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom">
+                        </td>
+                        <td width="84" nowrap="" valign="bottom">
+                        </td>
+                        <td width="52" nowrap="" valign="bottom">
+                        </td>
+                        <td width="92" nowrap="" valign="bottom">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom">
+                        </td>
+                        <td width="129" nowrap="" valign="bottom">
+                        </td>
+                        <td width="59" nowrap="" valign="bottom">
+                        </td>
+                        <td width="68" nowrap="" valign="bottom">
+                        </td>
+                    </tr>
+                    <tr class="dgm_edgeboxrow">
+                        <td width="136" nowrap="" valign="bottom">
+                        </td>
+                        <td width="267" nowrap="" colspan="4" class="dgm_condbox">
+                            <p align="center">
+                                {A-C}
+                            </p>
+                        </td>
+                        <td width="52" nowrap="" valign="bottom">
+                        </td>
+                        <td width="272" nowrap="" colspan="4" class="dgm_condbox">
+                            <p align="center">
+                                {C-D'}
+                            </p>
+                        </td>
+                        <td width="59" nowrap="">
+                        </td>
+                        <td width="68" nowrap="" valign="bottom">
+                        </td>
+                    </tr>
+                </tbody>
+            </table-->
+
+        </div>
+
+
+
+    </div>
+{% endblock %}

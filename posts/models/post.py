@@ -30,6 +30,7 @@ class Post(models.Model, ModelDiffMixin):
     TYPE_WEEKLY_DIGEST = "weekly_digest"
     TYPE_GUIDE = "guide"
     TYPE_THREAD = "thread"
+    TYPE_CRT = "crt"
     TYPES = [
         (TYPE_POST, "Текст"),
         (TYPE_INTRO, "#intro"),
@@ -43,6 +44,7 @@ class Post(models.Model, ModelDiffMixin):
         (TYPE_WEEKLY_DIGEST, "Журнал Клуба"),
         (TYPE_GUIDE, "Путеводитель"),
         (TYPE_THREAD, "Тред"),
+        (TYPE_CRT, "ДыэРКа")
     ]
 
     TYPE_TO_EMOJI = {
