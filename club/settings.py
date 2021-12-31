@@ -19,7 +19,7 @@ ALLOWED_HOSTS = ["*", "127.0.0.1", "localhost", "0.0.0.0", "club.mnogosdelal.ru"
 INTERNAL_IPS = ["127.0.0.1"]
 
 ADMINS = [
-    ("admin", "mnogosdelal.club@gmail.com"),
+    ("admin", "club@mnogosdelal.ru"),
 ]
 
 INSTALLED_APPS = [
@@ -163,7 +163,7 @@ EMAIL_PORT = os.getenv("EMAIL_PORT", 587)
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "Джедайский Клуб <mnogosdelal.club@gmail.com>")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "Джедайский Клуб <club@mnogosdelal.ru>")
 
 # App
 
