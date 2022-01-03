@@ -595,6 +595,164 @@ class PostThreadForm(PostForm):
         model = Post
         fields = ["title", "text", "comment_template", "topic", "is_public"]
 
+class PostCRTForm(PostForm):
+    title = forms.CharField(
+        label="Заголовок",
+        required=True,
+        max_length=128,
+        widget=forms.TextInput(attrs={"placeholder": "Заголовок диаграммы 🤙"}),
+    )
+    text = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=True,
+        max_length=500000,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-full",
+                "placeholder": "О чем говорит вам эта диаграмма?\n"
+                                "Какие посылки можно поставить под сомнение?\n"
+                                "И что это нам дает?",
+            }
+        ),
+    )
+
+    a = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-invisible",
+                "placeholder": "Наша общая цель",
+            }
+        ),
+    )
+    b = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-invisible",
+                "placeholder": "Условие 1",
+            }
+        ),
+    )
+    c = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-invisible",
+                "placeholder": "Условие 2",
+            }
+        ),
+    )
+    d = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-invisible",
+                "placeholder": "Метод обеспечения 1",
+            }
+        ),
+    )
+    dprime = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-invisible",
+                "placeholder": "Метод обеспечения 2",
+            }
+        ),
+    )
+    ab = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-invisible",
+                "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
+            }
+        ),
+    )
+    bd = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-invisible",
+                "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
+            }
+        ),
+    )
+    ac = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-invisible",
+                "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
+            }
+        ),
+    )
+    cdprime = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-invisible",
+                "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
+            }
+        ),
+    )
+    ddprime = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-invisible",
+                "placeholder": "Почему вообще имеет место конфликт?",
+            }
+        ),
+    )
+
+    coauthors = SimpleArrayField(
+        forms.CharField(max_length=32),
+        max_length=10,
+        label="Соавторы поста",
+        required=False,
+    )
+
+    class Meta:
+        model = Post
+        fields = ["title", "text", "topic", "is_public", "coauthors"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        self.validate_coauthors(cleaned_data)
+        return cleaned_data
 
 POST_TYPE_MAP = {
     Post.TYPE_POST: PostTextForm,
@@ -606,4 +764,5 @@ POST_TYPE_MAP = {
     Post.TYPE_EVENT: PostEventForm,
     Post.TYPE_GUIDE: PostGuideForm,
     Post.TYPE_THREAD: PostThreadForm,
+    Post.TYPE_CRT: PostCRTForm,
 }

@@ -21,10 +21,12 @@
                 <span class="compose-type-icon">🔗</span>
                 <span class="compose-type-name">Ссылка</span>
             </a>
+            {% comment %}
             <a href="{% url "compose_type" "idea" %}" class="compose-type">
                 <span class="compose-type-icon">💡</span>
                 <span class="compose-type-name">Идея</span>
             </a>
+            {% endcomment %}
             <a href="{% url "compose_type" "battle" %}" class="compose-type">
                 <span class="compose-type-icon">🤜🤛</span>
                 <span class="compose-type-name">Батл</span>
@@ -37,15 +39,16 @@
                 <span class="compose-type-icon">⚡</span>
                 <span class="compose-type-name">ДыэРКа</span>
             </a>
-            <!--a href="{% url "compose_type" "project" %}" class="compose-type">
+            {% comment %}
+            <a href="{% url "compose_type" "project" %}" class="compose-type">
                 <span class="compose-type-icon">🏗</span>
                 <span class="compose-type-name">Проект</span>
             </a>
             <a href="{% url "compose_type" "guide" %}" class="compose-type">
                 <span class="compose-type-icon">🗺</span>
                 <span class="compose-type-name">Путеводитель</span>
-            </a-->
-            {% comment %}
+            </a>
+
             <a href="{% url "compose_type" "thread" %}" class="compose-type">
                 <span class="compose-type-icon">🗄</span>
                 <span class="compose-type-name">Тред</span>
