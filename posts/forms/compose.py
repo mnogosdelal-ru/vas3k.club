@@ -643,7 +643,7 @@ class PostCRTForm(PostForm):
                 "maxlength": 500000,
                 "class": "markdown-editor-invisible",
                 "placeholder": "Наша общая цель",
-                "rows": 4,
+                "rows": "4",
             }
         ),
     )
