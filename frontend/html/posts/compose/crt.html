@@ -24,13 +24,19 @@
 
         <div class="content compose">
             <form action="." method="post" class="compose-form" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-row form-row-center">
+                    {{ form.topic }}
+                    {% if form.topic.errors %}<span class="form-row-errors">{{ form.topic.errors }}</span>{% endif %}
+                </div>
 
                 <div class="form-row compose-form-title">
                     {{ form.title }}
                     {% if form.title.errors %}<span class="form-row-errors">{{ form.title.errors }}</span>{% endif %}
                 </div>
 
-                <table border="0" cellspacing="0" cellpadding="0" width="620">
+                <table border="0" cellspacing="0" cellpadding="0" width="100%">
                     <tbody>
                         <tr class="dgm_edgeboxrow">
                             <td></td>
@@ -49,14 +55,14 @@
                             <td width="100"></td>
                             <td class="dgm_rightbordercondlink" width="30"></td>
                             <td width="40"></td>
-                            <td width="50"></td>
-                            <td width="30"></td>
+                            <td width="80"></td>
+                            <td width="80"></td>
                             <td width="50"></td>
                             <td class="dgm_rightbordercondlink" width="30"></td>
-                            <td width="30"></td>
+                            <td width="80"></td>
                             <td width="60"></td>
-                            <td width="60"></td>
-                            <td width="40"></td>
+                            <td width="80"></td>
+                            <td width="80"></td>
                         </tr>
                         <tr class="dgm_boxrow">
                             <td></td>
@@ -106,7 +112,7 @@
                                 {{ form.ddprime }}
                             </td>
                             <td class="dgm_rightborderconflictlink"></td>
-                            <td></td>
+                            <td>⚡</td>
                         </tr>
                         <tr class="dgm_midboxrow">
                             <td></td>
@@ -114,7 +120,7 @@
                             <td></td>
                             <td></td>
                             <td class="dgm_rightborderconflictlink dgm_bottombordercondlink"></td>
-                            <td></td>
+                            <td>⚡</td>
                         </tr>
                         <tr class="dgm_midboxrow">
                             <td class="dgm_lowbordermainlink "></td>
@@ -122,7 +128,7 @@
                             <td></td>
                             <td></td>
                             <td class="dgm_rightborderconflictlink"></td>
-                            <td></td>
+                            <td>⚡</td>
                         </tr>
                         <tr class="dgm_midboxrow">
                             <td class="dgm_rightbordermainlink"></td>
@@ -130,7 +136,7 @@
                             <td></td>
                             <td></td>
                             <td class="dgm_rightborderconflictlink"></td>
-                            <td></td>
+                            <td>⚡</td>
                         </tr>
                         <tr class="dgm_emptyrow">
                             <td></td>

@@ -618,7 +618,7 @@ class PostCRTForm(PostForm):
     )
 
     a = forms.CharField(
-        label="Текст поста к диаграмме",
+        label="A:",
         required=False,
         max_length=256,
         widget=forms.Textarea(
@@ -626,11 +626,12 @@ class PostCRTForm(PostForm):
                 "maxlength": 500000,
                 "class": "markdown-editor-invisible",
                 "placeholder": "Наша общая цель",
+                "rows": 4,
             }
         ),
     )
     b = forms.CharField(
-        label="Текст поста к диаграмме",
+        label="B:",
         required=False,
         max_length=256,
         widget=forms.Textarea(
@@ -642,7 +643,7 @@ class PostCRTForm(PostForm):
         ),
     )
     c = forms.CharField(
-        label="Текст поста к диаграмме",
+        label="C:",
         required=False,
         max_length=256,
         widget=forms.Textarea(
@@ -654,7 +655,7 @@ class PostCRTForm(PostForm):
         ),
     )
     d = forms.CharField(
-        label="Текст поста к диаграмме",
+        label="D:",
         required=False,
         max_length=256,
         widget=forms.Textarea(
@@ -666,7 +667,7 @@ class PostCRTForm(PostForm):
         ),
     )
     dprime = forms.CharField(
-        label="Текст поста к диаграмме",
+        label="D':",
         required=False,
         max_length=256,
         widget=forms.Textarea(
@@ -678,7 +679,7 @@ class PostCRTForm(PostForm):
         ),
     )
     ab = forms.CharField(
-        label="Текст поста к диаграмме",
+        label="A-B:",
         required=False,
         max_length=256,
         widget=forms.Textarea(
@@ -690,7 +691,7 @@ class PostCRTForm(PostForm):
         ),
     )
     bd = forms.CharField(
-        label="Текст поста к диаграмме",
+        label="B-D",
         required=False,
         max_length=256,
         widget=forms.Textarea(
@@ -702,7 +703,7 @@ class PostCRTForm(PostForm):
         ),
     )
     ac = forms.CharField(
-        label="Текст поста к диаграмме",
+        label="A-C",
         required=False,
         max_length=256,
         widget=forms.Textarea(
@@ -714,7 +715,7 @@ class PostCRTForm(PostForm):
         ),
     )
     cdprime = forms.CharField(
-        label="Текст поста к диаграмме",
+        label="C-D':",
         required=False,
         max_length=256,
         widget=forms.Textarea(
@@ -726,7 +727,7 @@ class PostCRTForm(PostForm):
         ),
     )
     ddprime = forms.CharField(
-        label="Текст поста к диаграмме",
+        label="D-D':",
         required=False,
         max_length=256,
         widget=forms.Textarea(
@@ -747,7 +748,7 @@ class PostCRTForm(PostForm):
 
     class Meta:
         model = Post
-        fields = ["title", "text", "topic", "is_public", "coauthors"]
+        fields = ["a", "b", "c", "d", "dprime", "ab", "bd", "ac", "cdprime", "ddprime", "title", "text", "topic", "is_public", "coauthors"]
 
     def clean(self):
         cleaned_data = super().clean()
