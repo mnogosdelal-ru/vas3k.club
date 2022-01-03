@@ -596,6 +596,23 @@ class PostThreadForm(PostForm):
         fields = ["title", "text", "comment_template", "topic", "is_public"]
 
 class PostCRTForm(PostForm):
+    def __init__(self, *args, **kwargs):
+        instance = kwargs.get("instance")
+        if instance and instance.metadata:
+            kwargs.update(initial={
+                "a": instance.metadata.get("crt", {}).get("a") or "",
+                "b": instance.metadata.get("crt", {}).get("b") or "",
+                "c": instance.metadata.get("crt", {}).get("c") or "",
+                "d": instance.metadata.get("crt", {}).get("d") or "",
+                "dprime": instance.metadata.get("crt", {}).get("dprime") or "",
+                "ab": instance.metadata.get("crt", {}).get("ab") or "",
+                "ac": instance.metadata.get("crt", {}).get("ac") or "",
+                "bd": instance.metadata.get("crt", {}).get("bd") or "",
+                "cdprime": instance.metadata.get("crt", {}).get("cdprime") or "",
+                "ddprime": instance.metadata.get("crt", {}).get("ddprime") or "",
+            })
+        super().__init__(*args, **kwargs)
+
     title = forms.CharField(
         label="Заголовок",
         required=True,
@@ -753,6 +770,22 @@ class PostCRTForm(PostForm):
     def clean(self):
         cleaned_data = super().clean()
         self.validate_coauthors(cleaned_data)
+
+        self.instance.metadata = {
+            "crt": {
+                "a": cleaned_data["a"],
+                "b": cleaned_data["b"],
+                "c": cleaned_data["c"],
+                "d": cleaned_data["d"],
+                "dprime": cleaned_data["dprime"],
+                "ab": cleaned_data["ab"],
+                "ac": cleaned_data["ac"],
+                "bd": cleaned_data["bd"],
+                "cdprime": cleaned_data["cdprime"],
+                "ddprime": cleaned_data["ddprime"],
+            }
+        }
+
         return cleaned_data
 
 POST_TYPE_MAP = {

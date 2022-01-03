@@ -74,7 +74,7 @@ class Post(models.Model, ModelDiffMixin):
         TYPE_BATTLE: "Батл:",
         TYPE_GUIDE: "🗺",
         TYPE_THREAD: "Тред:",
-        TYPE_CRT: "ДыэРКа",
+        TYPE_CRT: "ДыэРКа:",
     }
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
