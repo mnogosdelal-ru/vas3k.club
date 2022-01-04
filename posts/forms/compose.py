@@ -641,9 +641,9 @@ class PostCRTForm(PostForm):
         widget=forms.Textarea(
             attrs={
                 "maxlength": 500000,
-                "class": "markdown-editor-invisible",
-                "placeholder": "Наша общая цель",
                 "rows": "4",
+                "cols": "25",
+                "placeholder": "Наша общая цель",
             }
         ),
     )
@@ -654,7 +654,8 @@ class PostCRTForm(PostForm):
         widget=forms.Textarea(
             attrs={
                 "maxlength": 500000,
-                "class": "markdown-editor-invisible",
+                "rows": "4",
+                "cols": "25",
                 "placeholder": "Условие 1",
             }
         ),
@@ -666,7 +667,8 @@ class PostCRTForm(PostForm):
         widget=forms.Textarea(
             attrs={
                 "maxlength": 500000,
-                "class": "markdown-editor-invisible",
+                "rows": "4",
+                "cols": "25",
                 "placeholder": "Условие 2",
             }
         ),
@@ -678,7 +680,8 @@ class PostCRTForm(PostForm):
         widget=forms.Textarea(
             attrs={
                 "maxlength": 500000,
-                "class": "markdown-editor-invisible",
+                "rows": "4",
+                "cols": "25",
                 "placeholder": "Метод обеспечения 1",
             }
         ),
@@ -690,7 +693,8 @@ class PostCRTForm(PostForm):
         widget=forms.Textarea(
             attrs={
                 "maxlength": 500000,
-                "class": "markdown-editor-invisible",
+                "rows": "4",
+                "cols": "25",
                 "placeholder": "Метод обеспечения 2",
             }
         ),
@@ -702,7 +706,8 @@ class PostCRTForm(PostForm):
         widget=forms.Textarea(
             attrs={
                 "maxlength": 500000,
-                "class": "markdown-editor-invisible",
+                "rows": "4",
+                "cols": "25",
                 "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
             }
         ),
@@ -714,7 +719,8 @@ class PostCRTForm(PostForm):
         widget=forms.Textarea(
             attrs={
                 "maxlength": 500000,
-                "class": "markdown-editor-invisible",
+                "rows": "4",
+                "cols": "25",
                 "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
             }
         ),
@@ -726,7 +732,8 @@ class PostCRTForm(PostForm):
         widget=forms.Textarea(
             attrs={
                 "maxlength": 500000,
-                "class": "markdown-editor-invisible",
+                "rows": "4",
+                "cols": "25",
                 "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
             }
         ),
@@ -738,7 +745,8 @@ class PostCRTForm(PostForm):
         widget=forms.Textarea(
             attrs={
                 "maxlength": 500000,
-                "class": "markdown-editor-invisible",
+                "rows": "4",
+                "cols": "25",
                 "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
             }
         ),
@@ -750,7 +758,8 @@ class PostCRTForm(PostForm):
         widget=forms.Textarea(
             attrs={
                 "maxlength": 500000,
-                "class": "markdown-editor-invisible",
+                "rows": "4",
+                "cols": "25",
                 "placeholder": "Почему вообще имеет место конфликт?",
             }
         ),
