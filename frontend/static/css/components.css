@@ -66,11 +66,22 @@
     font-size: 120%;
 }
 
+    .error h1, .message h1, .access-denied h1 {
+        display: block;
+        font-size: 230%;
+        margin-top: 0;
+        margin-bottom: 30px;
+    }
+
     .error h2, .message h2, .access-denied h2 {
         display: block;
         font-size: 150%;
         margin-top: 0;
         margin-bottom: 30px;
+    }
+
+    .message-center {
+        text-align: center;
     }
 
 .paginator {
@@ -354,7 +365,7 @@
         }
 
         .post-comments .upvote {
-            padding: 7px;
+            padding: 4px 7px;
             font-size: 14px;
         }
 
@@ -791,6 +802,10 @@
         min-height: 20px;
     }
 
+    .feed-post-type-intro .post-title-link:focus {
+        outline: auto;
+    }
+
     .feed-post a {
         z-index: 1;
     }
@@ -806,7 +821,7 @@
 
     .feed-post-votes {
         padding-left: 10px;
-        z-index: 1;
+        z-index: 2;
     }
 
     .feed-post-header {
@@ -831,13 +846,12 @@
 
     .feed-post-author .avatar {
         position: absolute;
-        top: 40px;
         left: -26px;
         width: 52px;
         height: 52px;
         border: solid 3px var(--block-bg-color);
         text-align: left;
-        z-index: 1;
+        z-index: 2;
     }
 
     .feed-post-author .avatar img {
@@ -847,26 +861,25 @@
     }
 
     .feed-post-image {
-        width: 38px;
+        width: 20px;
     }
+
         .feed-post-image-link {
-            display: flex;
+            position: absolute;
             width: 72px;
             height: 72px;
-            position: relative;
-            left: -72px;
-            top: -7px;
+            left: -36px;
             border: solid 3px var(--block-bg-color);
             border-radius: 100%;
             overflow: hidden;
+            display: flex;
         }
 
         @media only screen and (max-width: 570px) {
             .feed-post-image-link {
                 width: 48px;
                 height: 48px;
-                left: -48px;
-                top: 7px;
+                left: -18px;
             }
         }
 
@@ -877,8 +890,17 @@
         }
 
     .feed-post-topic {
-        padding-right: 15px;
+        padding-right: 10px;
         display: inline-block;
+    }
+
+    .feed-post-badge {
+        width: 1.3em;
+        height: 1.3em;
+        margin-right: 5px;
+        vertical-align: middle;
+        position: relative;
+        top: -2px;
     }
 
     .feed-post-comments {
@@ -931,7 +953,6 @@
         }
 
             .feed-post-author .avatar {
-                top: 24px;
                 left: -16px;
                 width: 36px;
                 height: 36px;
@@ -1152,10 +1173,6 @@
     opacity: 0.6;
 }
 
-.bookmark-button {
-    padding-right: 10px;
-}
-
 .license {
     display: block;
     text-decoration: none;
@@ -1167,42 +1184,4 @@
     .license img {
         width: 80px;
         height: 80px;
-    }
-
-.comment-scroll-arrow {
-    position: fixed;
-    left: 20px;
-    bottom: 20px;
-    display: inline-block;
-    text-decoration: none;
-    width: 48px;
-    height: 48px;
-    font-size: 140%;
-    font-weight: 600;
-    font-family: var(--sans-font);
-    color: var(--text-color);
-    border: var(--button-border);
-    background-color: var(--bg-color);
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 5;
-}
-
-    .comment-scroll-arrow:hover {
-        background-color: var(--opposite-bg-color);
-        color: var(--opposite-text-color);
-    }
-
-    .comment-scroll-arrow::before {
-        content: "▲";
-        position: absolute;
-        font-size: 18px;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-43%) rotate(180deg);
-        transition: transform .2s;
-    }
-
-    .comment-scroll-arrow.arrow-up::before {
-        transform: translateX(-50%) translateY(-50%) rotate(0);
     }

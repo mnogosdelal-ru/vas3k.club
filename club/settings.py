@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "notifications.apps.NotificationsConfig",
     "search.apps.SearchConfig",
     "gdpr.apps.GdprConfig",
-    # "badges.apps.BadgesConfig",
+    "badges.apps.BadgesConfig",
     "simple_history",
     "django_q",
     "webpack_loader",
@@ -66,6 +66,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "club.context_processors.settings_processor",
                 "club.context_processors.data_processor",
+                "club.context_processors.features_processor",
                 "auth.context_processors.users.me",
                 "posts.context_processors.topics.topics",
             ]
@@ -173,9 +174,9 @@ APP_DESCRIPTION = "Всё интересное происходит за зак�
 LAUNCH_DATE = datetime(2020, 4, 13)
 
 AUTH_CODE_LENGTH = 6
-AUTH_CODE_EXPIRATION_TIMEDELTA = timedelta(minutes=15)
-AUTH_MAX_CODE_TIMEDELTA = timedelta(hours=1)
-AUTH_MAX_CODE_COUNT = 5
+AUTH_CODE_EXPIRATION_TIMEDELTA = timedelta(minutes=10)
+AUTH_MAX_CODE_TIMEDELTA = timedelta(hours=3)
+AUTH_MAX_CODE_COUNT = 3
 AUTH_MAX_CODE_ATTEMPTS = 3
 
 DEFAULT_PAGE_SIZE = 70
@@ -183,6 +184,8 @@ SEARCH_PAGE_SIZE = 25
 PEOPLE_PAGE_SIZE = 18
 PROFILE_COMMENTS_PAGE_SIZE = 100
 PROFILE_POSTS_PAGE_SIZE = 30
+FRIENDS_PAGE_SIZE = 30
+PROFILE_BADGES_PAGE_SIZE = 50
 
 COMMUNITY_APPROVE_UPVOTES = 35
 
@@ -255,6 +258,9 @@ STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET") or ""
 STRIPE_CANCEL_URL = APP_HOST + "/join/"
 STRIPE_SUCCESS_URL = APP_HOST + "/monies/done/?reference={CHECKOUT_SESSION_ID}"
 
+WEBHOOK_SECRETS = set(os.getenv("WEBHOOK_SECRETS", "").split(","))
+
+DEFAULT_AVATAR = "https://i.vas3k.club/v.png"
 COMMENT_EDITABLE_TIMEDELTA = timedelta(hours=24)
 COMMENT_DELETABLE_TIMEDELTA = timedelta(days=10 * 365)
 COMMENT_DELETABLE_BY_POST_AUTHOR_TIMEDELTA = timedelta(days=14)
@@ -264,8 +270,9 @@ RATE_LIMIT_POSTS_PER_DAY = 10
 RATE_LIMIT_COMMENTS_PER_DAY = 200
 POST_VIEW_COOLDOWN_PERIOD = timedelta(days=1)  # how much time must pass before a repeat viewing of a post counts
 POST_HOTNESS_PERIOD = timedelta(days=5)  # time window for hotness recalculation script
-MIN_FRIEND_COMMENT_LENGTH = 250  # notify comments only from a certain length
 MAX_COMMENTS_FOR_DELETE_VS_CLEAR = 10  # number of comments after which the post cannot be deleted
+MIN_DAYS_TO_GIVE_BADGES = 35  # minimum "days" balance to buy and gift any badge
+MAX_MUTE_COUNT = 10  # maximum number of users allowed to mute
 CLEARED_POST_TEXT = "```\n" \
     "😥 Этот пост был удален самим автором и от него остались лишь комментарии участников. " \
     "Если вы хотите приютить и развить эту тему как новый автор, напишите модераторам Клуба: club@mnogosdelal.ru." \
@@ -277,6 +284,7 @@ DELETED_USERNAME = "deleted"
 POSTING_GUIDE_URL = "https://club.mnogosdelal.ru/post/10447/"
 CHATS_GUIDE_URL = "https://club.mnogosdelal.ru/post/9542/"
 PEOPLE_GUIDE_URL = "https://club.mnogosdelal.ru/post/2584/"
+PARLIAMENT_GUIDE_URL = "https://vas3k.club/post/12870/"
 
 WEBHOOK_SECRETS = set(os.getenv("WEBHOOK_SECRETS", "").split(","))
 

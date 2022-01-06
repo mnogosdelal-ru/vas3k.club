@@ -97,6 +97,12 @@ ACHIEVEMENTS = [
         "image": "https://club.mnogosdelal.ru/static/images/achievements/2020.png",
         "style": "background-color: #FC913A; font-size: 190%;",
     }),
+    ("2021", {
+        "name": "2021",
+        "description": "Призовое место в итогах 2021 года",
+        "image": "https://vas3k.club/static/images/achievements/2021.png",
+        "style": "background-color: #6667ab; font-size: 190%;",
+    }),
     ("mic", {
         "name": "Золотой микрофон",
         "description": "За выступление на АМА  и митапах в качестве оратора",
@@ -126,6 +132,42 @@ ACHIEVEMENTS = [
         "description": "Выдаётся за участие в 10 клубных хакатонах, хактоберфестах или геймджемах",
         "image": "https://vas3k.club/static/images/achievements/hack_4.png",
         "style": "background-color: #00a550; font-size: 120%;",
+    }),
+    ("cook_1", {
+        "name": "Повар",
+        "description": "Выдаётся за участие в кухонном челлендже",
+        "image": "https://vas3k.club/static/images/achievements/cook_1.png",
+        "style": "background-color: #48d1cc; font-size: 120%;",
+    }),
+    ("cook_2", {
+        "name": "Су-шеф",
+        "description": "Выдаётся за участие в 5 кухонных челленджах",
+        "image": "https://vas3k.club/static/images/achievements/cook_2.png",
+        "style": "background-color: #48d1cc; font-size: 120%;",
+    }),
+    ("cook_3", {
+        "name": "Шеф-повар",
+        "description": "Выдаётся за участие в 10 кухонных челленджах",
+        "image": "https://vas3k.club/static/images/achievements/cook_3.png",
+        "style": "background-color: #48d1cc; font-size: 120%;",
+    }),
+    ("pastry_cook_1", {
+        "name": "Бабушкин пирожок",
+        "description": "Выдаётся за участие в пекарском или кондитерском челлендже",
+        "image": "https://vas3k.club/static/images/achievements/pastry_cook_1.png",
+        "style": "background-color: #ffa089; font-size: 120%;",
+    }),
+    ("pastry_cook_2", {
+        "name": "Кондитер",
+        "description": "Выдаётся за участие в 5 пекарских или кондитерских челленджах",
+        "image": "https://vas3k.club/static/images/achievements/pastry_cook_2.png",
+        "style": "background-color: #ffa089; font-size: 120%;",
+    }),
+    ("pastry_cook_3", {
+        "name": "Шеф-кондитер",
+        "description": "Выдаётся за участие в 10 пекарских или кондитерских челленджах",
+        "image": "https://vas3k.club/static/images/achievements/pastry_cook_3.png",
+        "style": "background-color: #ffa089; font-size: 120%;",
     }),
 ]
 

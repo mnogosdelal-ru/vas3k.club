@@ -1,5 +1,4 @@
-version: "3.7"
-
+version: "3"
 services:
   club_app: &app
     image: ghcr.io/glader/mnogosdelal.club:latest
@@ -47,6 +46,16 @@ services:
       - redis
     ports:
       - "8816:8816"
+
+  cron:
+    <<: *app
+    command: make docker-run-cron
+    container_name: club_cron
+    depends_on:
+      - club_app
+      - postgres
+      - redis
+    ports: []
 
   postgres:
     image: postgres:12

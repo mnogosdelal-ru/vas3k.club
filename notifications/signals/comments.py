@@ -8,6 +8,7 @@ from comments.models import Comment
 from common.regexp import USERNAME_RE
 from posts.models.subscriptions import PostSubscription
 from users.models.friends import Friend
+from users.models.mute import Muted
 from users.models.user import User
 
 
@@ -52,8 +53,8 @@ def async_create_or_update_comment(comment):
             text=render_html_message("comment_to_post.html", comment=comment),
         )
 
-    # notify friends about top level comments
-    if len(comment.text) >= settings.MIN_FRIEND_COMMENT_LENGTH and not comment.reply_to:
+    # notify friends about your comments (not replies)
+    if not comment.reply_to:
         friends = Friend.friends_for_user(comment.author)
         for friend in friends:
             if friend.user_from.telegram_id \
@@ -75,6 +76,10 @@ def async_create_or_update_comment(comment):
             continue
 
         user = User.objects.filter(slug=username).first()
+        is_muted = Muted.objects.filter(user_from=user, user_to=comment.author).exists()
+        if is_muted:
+            continue
+
         if user and user.telegram_id and user.id not in notified_user_ids:
             send_telegram_message(
                 chat=Chat(id=user.telegram_id),
