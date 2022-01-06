@@ -595,6 +595,207 @@ class PostThreadForm(PostForm):
         model = Post
         fields = ["title", "text", "comment_template", "topic", "is_public"]
 
+class PostCRTForm(PostForm):
+    def __init__(self, *args, **kwargs):
+        instance = kwargs.get("instance")
+        if instance and instance.metadata:
+            kwargs.update(initial={
+                "a": instance.metadata.get("crt", {}).get("a") or "",
+                "b": instance.metadata.get("crt", {}).get("b") or "",
+                "c": instance.metadata.get("crt", {}).get("c") or "",
+                "d": instance.metadata.get("crt", {}).get("d") or "",
+                "dprime": instance.metadata.get("crt", {}).get("dprime") or "",
+                "ab": instance.metadata.get("crt", {}).get("ab") or "",
+                "ac": instance.metadata.get("crt", {}).get("ac") or "",
+                "bd": instance.metadata.get("crt", {}).get("bd") or "",
+                "cdprime": instance.metadata.get("crt", {}).get("cdprime") or "",
+                "ddprime": instance.metadata.get("crt", {}).get("ddprime") or "",
+            })
+        super().__init__(*args, **kwargs)
+
+    title = forms.CharField(
+        label="Заголовок",
+        required=True,
+        max_length=128,
+        widget=forms.TextInput(attrs={"placeholder": "Заголовок диаграммы 🤙"}),
+    )
+    text = forms.CharField(
+        label="Текст поста к диаграмме",
+        required=True,
+        max_length=500000,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "class": "markdown-editor-full",
+                "placeholder": "О чем говорит вам эта диаграмма?\n"
+                                "Какие посылки можно поставить под сомнение?\n"
+                                "И что это нам дает?",
+            }
+        ),
+    )
+
+    a = forms.CharField(
+        label="A:",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "rows": "4",
+                "cols": "25",
+                "placeholder": "Наша общая цель",
+            }
+        ),
+    )
+    b = forms.CharField(
+        label="B:",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "rows": "4",
+                "cols": "25",
+                "placeholder": "Условие 1",
+            }
+        ),
+    )
+    c = forms.CharField(
+        label="C:",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "rows": "4",
+                "cols": "25",
+                "placeholder": "Условие 2",
+            }
+        ),
+    )
+    d = forms.CharField(
+        label="D:",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "rows": "4",
+                "cols": "25",
+                "placeholder": "Метод обеспечения 1",
+            }
+        ),
+    )
+    dprime = forms.CharField(
+        label="D':",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "rows": "4",
+                "cols": "25",
+                "placeholder": "Метод обеспечения 2",
+            }
+        ),
+    )
+    ab = forms.CharField(
+        label="A-B:",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "rows": "4",
+                "cols": "25",
+                "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
+            }
+        ),
+    )
+    bd = forms.CharField(
+        label="B-D",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "rows": "4",
+                "cols": "25",
+                "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
+            }
+        ),
+    )
+    ac = forms.CharField(
+        label="A-C",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "rows": "4",
+                "cols": "25",
+                "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
+            }
+        ),
+    )
+    cdprime = forms.CharField(
+        label="C-D':",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "rows": "4",
+                "cols": "25",
+                "placeholder": "Для того чтобы ... нам нужно ... потому что ...",
+            }
+        ),
+    )
+    ddprime = forms.CharField(
+        label="D-D':",
+        required=False,
+        max_length=256,
+        widget=forms.Textarea(
+            attrs={
+                "maxlength": 500000,
+                "rows": "4",
+                "cols": "25",
+                "placeholder": "Почему вообще имеет место конфликт?",
+            }
+        ),
+    )
+
+    coauthors = SimpleArrayField(
+        forms.CharField(max_length=32),
+        max_length=10,
+        label="Соавторы поста",
+        required=False,
+    )
+
+    class Meta:
+        model = Post
+        fields = ["a", "b", "c", "d", "dprime", "ab", "bd", "ac", "cdprime", "ddprime", "title", "text", "topic", "is_public", "coauthors"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        self.validate_coauthors(cleaned_data)
+
+        self.instance.metadata = {
+            "crt": {
+                "a": cleaned_data["a"],
+                "b": cleaned_data["b"],
+                "c": cleaned_data["c"],
+                "d": cleaned_data["d"],
+                "dprime": cleaned_data["dprime"],
+                "ab": cleaned_data["ab"],
+                "ac": cleaned_data["ac"],
+                "bd": cleaned_data["bd"],
+                "cdprime": cleaned_data["cdprime"],
+                "ddprime": cleaned_data["ddprime"],
+            }
+        }
+
+        return cleaned_data
 
 POST_TYPE_MAP = {
     Post.TYPE_POST: PostTextForm,
@@ -606,4 +807,5 @@ POST_TYPE_MAP = {
     Post.TYPE_EVENT: PostEventForm,
     Post.TYPE_GUIDE: PostGuideForm,
     Post.TYPE_THREAD: PostThreadForm,
+    Post.TYPE_CRT: PostCRTForm,
 }

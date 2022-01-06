@@ -1,3 +1,84 @@
 {% load static %}
 {% load render_bundle from webpack_loader %}
 {% render_bundle "main" "css" %}
+
+    <!-- КОСТЫЛЬ: Найти подходящее место для этого-->
+    <style>
+                .labelcell {
+                    text-align: left;
+                    font-weight: bold;
+                }
+                .dgm_emptyrow {
+                    height: 20px;
+                }
+                .dgm_boxrow{
+                    height: 50px;
+                }
+                .dgm_midboxrow{
+                    height: 25px;
+                }
+                .dgm_edgeboxrow{
+                    height: 100px;
+                }
+                html[theme="light"] .dgm_mainbox_view {
+                    border: 3px solid black;
+                    padding: 8px;
+                }
+                html[theme="light"] .dgm_condbox_view {
+                    border: 2px solid grey;
+                    padding: 8px;
+                }
+                html[theme="light"] .dgm_mainbox {
+                    border: 3px solid black;
+                }
+                html[theme="light"] .dgm_condbox {
+                    border: 2px solid grey;
+                }
+                html[theme="light"] .dgm_lowbordermainlink {
+                    border-bottom : 2px solid black;
+                }
+                html[theme="light"] .dgm_rightbordermainlink {
+                    border-right : 2px solid black;
+                }
+                html[theme="light"] .dgm_rightborderconflictlink {
+                    border-right : 4px double red;
+                }
+                html[theme="light"] .dgm_rightbordercondlink {
+                    border-right : 1px solid grey;
+                }
+                html[theme="light"] .dgm_bottombordercondlink {
+                    border-bottom : 1px solid grey;
+                }
+
+
+                html[theme="dark"] .dgm_mainbox_view {
+                    border: 3px solid white;
+                    padding: 8px;
+                }
+                html[theme="dark"] .dgm_condbox_view {
+                    border: 2px solid #D3D3D3;
+                    padding: 8px;
+                }
+                html[theme="dark"] .dgm_mainbox {
+                    border: 3px solid white;
+                }
+                html[theme="dark"] .dgm_condbox {
+                    border: 2px solid #D3D3D3;
+                }
+                html[theme="dark"] .dgm_lowbordermainlink {
+                    border-bottom : 2px solid white;
+                }
+                html[theme="dark"] .dgm_rightbordermainlink {
+                    border-right : 2px solid white;
+                }
+                html[theme="dark"] .dgm_rightborderconflictlink {
+                    border-right : 4px double red;
+                }
+                html[theme="dark"] .dgm_rightbordercondlink {
+                    border-right : 1px solid #D3D3D3;
+                }
+                html[theme="dark"] .dgm_bottombordercondlink {
+                    border-bottom : 1px solid #D3D3D3;
+                }
+
+    </style>
