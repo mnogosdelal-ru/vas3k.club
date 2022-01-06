@@ -25,7 +25,7 @@
             <header class="post-header">
                 <div class="post-title">
                     {% block post_title %}
-                        <span class="p-name">{{ post.title | rutypography }}</span>
+                        <h1 class="post-inline-title p-name">{{ post.title | rutypography }}</h1>
                     {% endblock %}
 
                     <span class="post-is-public">
@@ -52,6 +52,7 @@
                         </div>
                     {% endif %}
                 </div>
+
                 <div class="post-info">
                     {% if post.topic %}
                         {% include "posts/widgets/topic.html" with topic=post.topic type="inline" %}
@@ -60,6 +61,12 @@
                         {% include "posts/widgets/post_actions_line.html" %}
                     </div>
                 </div>
+
+                {% if post.metadata.badges %}
+                    <a class="post-badges" href="{% url "profile_badges" post.author.slug %}">
+                        {% include "badges/widgets/badges.html" with badges=post.metadata.badges %}
+                    </a>
+                {% endif %}
             </header>
         {% endblock %}
 

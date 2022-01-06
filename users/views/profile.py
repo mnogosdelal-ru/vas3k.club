@@ -4,6 +4,7 @@ from django.http import Http404
 from django.shortcuts import redirect, get_object_or_404, render
 
 from auth.helpers import auth_required
+from badges.models import UserBadge
 from comments.models import Comment
 from common.pagination import paginate
 from common.request import ajax_request
@@ -13,6 +14,7 @@ from users.forms.profile import ExpertiseForm
 from users.models.achievements import UserAchievement
 from users.models.expertise import UserExpertise
 from users.models.friends import Friend
+from users.models.mute import Muted
 from users.models.tags import Tag, UserTag
 from users.models.user import User
 from users.utils import calculate_similarity
@@ -47,6 +49,7 @@ def profile(request, user_slug):
     # select other stuff from this user
     intro = Post.get_user_intro(user)
     projects = Post.objects.filter(author=user, type=Post.TYPE_PROJECT, is_visible=True).all()
+    badges = UserBadge.user_badges_grouped(user=user)
     achievements = UserAchievement.objects.filter(user=user).select_related("achievement")
     expertises = UserExpertise.objects.filter(user=user).all()
     comments = Comment.visible_objects()\
@@ -59,11 +62,13 @@ def profile(request, user_slug):
         .exclude(type__in=[Post.TYPE_INTRO, Post.TYPE_PROJECT, Post.TYPE_WEEKLY_DIGEST])\
         .order_by("-published_at")
     friend = Friend.objects.filter(user_from=request.me, user_to=user).first()
+    muted = Muted.objects.filter(user_from=request.me, user_to=user).first()
 
     return render(request, "users/profile.html", {
         "user": user,
         "intro": intro,
         "projects": projects,
+        "badges": badges,
         "tags": tags,
         "active_tags": active_tags,
         "achievements": [ua.achievement for ua in achievements],
@@ -74,6 +79,7 @@ def profile(request, user_slug):
         "posts_total": posts.count(),
         "similarity": similarity,
         "friend": friend,
+        "muted": muted,
     })
 
 
@@ -110,6 +116,21 @@ def profile_posts(request, user_slug):
     return render(request, "users/profile/posts.html", {
         "user": user,
         "posts": paginate(request, posts, settings.PROFILE_POSTS_PAGE_SIZE),
+    })
+
+
+@auth_required
+def profile_badges(request, user_slug):
+    if user_slug == "me":
+        return redirect("profile_badges", request.me.slug, permanent=False)
+
+    user = get_object_or_404(User, slug=user_slug)
+
+    badges = UserBadge.user_badges(user)
+
+    return render(request, "users/profile/badges.html", {
+        "user": user,
+        "badges": paginate(request, badges, settings.PROFILE_BADGES_PAGE_SIZE),
     })
 
 
