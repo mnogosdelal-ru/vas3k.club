@@ -21,10 +21,12 @@
                 <span class="compose-type-icon">🔗</span>
                 <span class="compose-type-name">Ссылка</span>
             </a>
+            {% comment %}
             <a href="{% url "compose_type" "idea" %}" class="compose-type">
                 <span class="compose-type-icon">💡</span>
                 <span class="compose-type-name">Идея</span>
             </a>
+            {% endcomment %}
             <a href="{% url "compose_type" "battle" %}" class="compose-type">
                 <span class="compose-type-icon">🤜🤛</span>
                 <span class="compose-type-name">Батл</span>
@@ -33,6 +35,15 @@
                 <span class="compose-type-icon">📅</span>
                 <span class="compose-type-name">Событие</span>
             </a>
+            <a href="{% url "compose_type" "crt" %}" class="compose-type">
+                <span class="compose-type-icon">⚡</span>
+                <span class="compose-type-name">ДыэРКа</span>
+            </a>
+            <a href="{% url "compose_type" "thread" %}" class="compose-type">
+                <span class="compose-type-icon">🗄</span>
+                <span class="compose-type-name">Тред</span>
+            </a>
+            {% comment %}
             <a href="{% url "compose_type" "project" %}" class="compose-type">
                 <span class="compose-type-icon">🏗</span>
                 <span class="compose-type-name">Проект</span>
@@ -41,12 +52,12 @@
                 <span class="compose-type-icon">🗺</span>
                 <span class="compose-type-name">Путеводитель</span>
             </a>
-            {% comment %}
+            {% endcomment %}
+
             <a href="{% url "compose_type" "thread" %}" class="compose-type">
                 <span class="compose-type-icon">🗄</span>
                 <span class="compose-type-name">Тред</span>
             </a>
-            {% endcomment %}
         </div>
         <div class="compose-posts-header" id="compose-drafts">
             <h2>Черновики 🙇‍♂️ </h2>

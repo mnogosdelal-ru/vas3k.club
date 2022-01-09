@@ -1,4 +1,4 @@
-name: Deploy master to production
+name: Deploy production
 
 on:
   push:
@@ -9,6 +9,8 @@ jobs:
   build:
     name: Build image
     runs-on: ubuntu-latest
+    env:
+      SSH_KEY_PATH: /tmp/ssh_key
     steps:
       - uses: actions/checkout@v2
         with:

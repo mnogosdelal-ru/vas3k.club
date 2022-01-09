@@ -1,0 +1,614 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {% if mode == "edit" %}
+        ДыэРКа — {{ block.super }}
+    {% else %}
+        Новая ДыэРКа — {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="content compose">
+        <div class="content-header">ДыэРКа</div>
+
+        {% if mode == "create" %}
+            <div class="content-description">
+                <p>
+                    ДыэРКа - это Диаграмма Разрешения Конфликтов.
+                    По сути - структурированный пост, способный передать сложную мысль в структурированной форме.
+                </p>
+            </div>
+        {% endif %}
+        </div>
+
+        <div class="content compose">
+            <form action="." method="post" class="compose-form" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-row form-row-center">
+                    {{ form.topic }}
+                    {% if form.topic.errors %}<span class="form-row-errors">{{ form.topic.errors }}</span>{% endif %}
+                </div>
+
+                <div class="form-row compose-form-title">
+                    {{ form.title }}
+                    {% if form.title.errors %}<span class="form-row-errors">{{ form.title.errors }}</span>{% endif %}
+                </div>
+
+                <table border="0" cellspacing="0" cellpadding="0"  style="table-layout: fixed;">
+                    <tbody>
+                        <col width="73px" />
+                        <col width="74px" />
+                        <col width="40px" />
+                        <col width="40px" />
+                        <col width="40px" />
+                        <col width="40px" />
+                        <col width="55px" />
+                        <col width="40px" />
+                        <col width="40px" />
+                        <col width="40px" />
+                        <col width="40px" />
+                        <col width="36px" />
+                        <tr class="dgm_emptyrow">
+                            <td></td>
+                            <td class="labelcell">A-B:</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="labelcell">B-D:</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_edgeboxrow">
+                            <td></td>
+                            <td colspan="4" class="dgm_condbox">
+                                {{ form.ab }}
+                            </td>
+                            <td></td>
+                            <td colspan="4" class="dgm_condbox">
+                                {{ form.bd }}
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_emptyrow">
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordercondlink"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordercondlink"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_emptyrow">
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordercondlink"></td>
+                            <td></td>
+                            <td class="labelcell">B:</td>
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordercondlink"></td>
+                            <td></td>
+                            <td class="labelcell">D:</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_boxrow">
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordercondlink"></td>
+                            <td class="dgm_lowbordermainlink"></td>
+                            <td colspan="3" rowspan="2" class="dgm_mainbox">
+                                {{ form.b }}
+                            </td>
+                            <td class="dgm_lowbordermainlink dgm_rightbordercondlink"></td>
+                            <td class="dgm_lowbordermainlink"></td>
+                            <td colspan="3" rowspan="2" class="dgm_mainbox">
+                                {{ form.d }}
+                            </td>
+                        </tr>
+                        <tr class="dgm_boxrow">
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordermainlink"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_emptyrow">
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordermainlink"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightborderconflictlink"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_emptyrow">
+                            <td class="labelcell">A:</td>
+                            <td></td>
+                            <td class="dgm_rightbordermainlink"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="labelcell">D-D':</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightborderconflictlink"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_midboxrow">
+                            <td colspan="2" rowspan="4" class="dgm_mainbox">
+                                {{ form.a }}
+                            </td>
+                            <td class="dgm_lowbordermainlink dgm_rightbordermainlink"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="4" rowspan="4" class="dgm_condbox">
+                                {{ form.ddprime }}
+                            </td>
+                            <td class="dgm_rightborderconflictlink"></td>
+                            <td>⚡</td>
+                        </tr>
+                        <tr class="dgm_midboxrow">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightborderconflictlink dgm_bottombordercondlink"></td>
+                            <td>⚡</td>
+                        </tr>
+                        <tr class="dgm_midboxrow">
+                            <td class="dgm_lowbordermainlink "></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightborderconflictlink"></td>
+                            <td>⚡</td>
+                        </tr>
+                        <tr class="dgm_midboxrow">
+                            <td class="dgm_rightbordermainlink"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightborderconflictlink"></td>
+                            <td>⚡</td>
+                        </tr>
+                        <tr class="dgm_emptyrow">
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordermainlink"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightborderconflictlink"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_emptyrow">
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordermainlink"></td>
+                            <td></td>
+                            <td class="labelcell">C:</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="labelcell">D':</td>
+                            <td class="dgm_rightborderconflictlink"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_boxrow">
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordermainlink"></td>
+                            <td class="dgm_lowbordermainlink"></td>
+                            <td colspan="3" rowspan="2" class="dgm_mainbox">
+                                {{ form.c }}
+                            </td>
+                            <td class="dgm_lowbordermainlink"></td>
+                            <td class="dgm_lowbordermainlink"></td>
+                            <td colspan="3" rowspan="2" class="dgm_mainbox">
+                                {{ form.dprime }}
+                            </td>
+                        </tr>
+                        <tr class="dgm_boxrow">
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordercondlink">
+                            </td>
+                            <td></td>
+                            <td class="dgm_rightbordercondlink">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_emptyrow">
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordercondlink">
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="dgm_rightbordercondlink">
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_emptyrow">
+                            <td></td>
+                            <td class="labelcell">A-C:</td>
+                            <td class="dgm_rightbordercondlink"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="labelcell">C-D':</td>
+                            <td class="dgm_rightbordercondlink"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="dgm_edgeboxrow">
+                            <td></td>
+                            <td colspan="4" class="dgm_condbox">
+                                {{ form.ac }}
+                            </td>
+                            <td></td>
+                            <td colspan="4" class="dgm_condbox">
+                                {{ form.cdprime }}
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br />
+
+                <div class="form-row compose-form-text">
+                    <label for="{{ form.text.id_for_label }}" class="form-label">{{ form.text.label }}</label>
+                    {{ form.text }}
+                    {% if form.title.errors %}<span class="compose-form-errors">{{ form.title.errors }}</span>{% endif %}
+                    <span class="form-row-help form-row-help-wide">
+                        Можно использовать <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markdown</a>.
+                        Для загрузки картинок просто перетащите их в редактор.
+                    </span>
+                </div>
+
+                {% include "posts/compose/elements/post_settings.html" with form=form %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-row form-row-center">
+                        {% for error in form.non_field_errors %}
+                            <span class="form-row-errors">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% include "posts/compose/elements/save_buttons.html" %}
+            </form>
+        </div>
+
+
+
+    </div>
+
+
+            <!--table border="0" cellspacing="0" cellpadding="0" width="853">
+                <tbody>
+                    <tr class="dgm_edgeboxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="267" nowrap="" colspan="4" class="dgm_condbox">
+                            <p align="center">
+                                {A-B}
+                            </p>
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="272" nowrap="" colspan="4" class="dgm_condbox">
+                            <p align="center">
+                                {B-D}
+                            </p>
+                        </td>
+                        <td width="59" nowrap="">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="92" nowrap="">
+                        </td>
+                        <td width="25" nowrap="" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="129" nowrap="">
+                        </td>
+                        <td width="59" nowrap="">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="228" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <p align="center">
+                                {B}
+                            </p>
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="256" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <p align="center">
+                                {D}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="92" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="129" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="252" nowrap="" colspan="2" rowspan="4" class="dgm_mainbox">
+                            <p align="center">
+                                {A}
+                            </p>
+                        </td>
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="272" nowrap="" colspan="4" rowspan="4" class="dgm_condbox">
+                            <p align="center">
+                                {D-D'}
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink dgm_bottombordercondlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink ">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_midboxrow">
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="">
+                        </td>
+                        <td width="84" nowrap="">
+                        </td>
+                        <td width="52" nowrap="">
+                        </td>
+                        <td width="92" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="25" nowrap="">
+                        </td>
+                        <td width="129" nowrap="">
+                        </td>
+                        <td width="59" nowrap="" class="dgm_rightborderconflictlink">
+                        </td>
+                        <td width="68" nowrap="">
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="">
+                        </td>
+                        <td width="116" nowrap="">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_rightbordermainlink">
+                        </td>
+                        <td width="33" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="228" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <p align="center">
+                                {C}
+                            </p>
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="25" nowrap="" class="dgm_lowbordermainlink">
+                        </td>
+                        <td width="256" nowrap="" colspan="3" rowspan="2" class="dgm_mainbox">
+                            <p align="center">
+                                {D'}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr class="dgm_boxrow">
+                        <td width="136" nowrap="" valign="bottom">
+                        </td>
+                        <td width="116" nowrap="" valign="bottom">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom">
+                        </td>
+                    </tr>
+                    <tr class="dgm_emptyrow">
+                        <td width="136" nowrap="" valign="bottom">
+                        </td>
+                        <td width="116" nowrap="" valign="bottom">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="33" nowrap="" valign="bottom">
+                        </td>
+                        <td width="84" nowrap="" valign="bottom">
+                        </td>
+                        <td width="52" nowrap="" valign="bottom">
+                        </td>
+                        <td width="92" nowrap="" valign="bottom">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom" class="dgm_rightbordercondlink">
+                        </td>
+                        <td width="25" nowrap="" valign="bottom">
+                        </td>
+                        <td width="129" nowrap="" valign="bottom">
+                        </td>
+                        <td width="59" nowrap="" valign="bottom">
+                        </td>
+                        <td width="68" nowrap="" valign="bottom">
+                        </td>
+                    </tr>
+                    <tr class="dgm_edgeboxrow">
+                        <td width="136" nowrap="" valign="bottom">
+                        </td>
+                        <td width="267" nowrap="" colspan="4" class="dgm_condbox">
+                            <p align="center">
+                                {A-C}
+                            </p>
+                        </td>
+                        <td width="52" nowrap="" valign="bottom">
+                        </td>
+                        <td width="272" nowrap="" colspan="4" class="dgm_condbox">
+                            <p align="center">
+                                {C-D'}
+                            </p>
+                        </td>
+                        <td width="59" nowrap="">
+                        </td>
+                        <td width="68" nowrap="" valign="bottom">
+                        </td>
+                    </tr>
+                </tbody>
+            </table-->
+
+
+{% endblock %}
