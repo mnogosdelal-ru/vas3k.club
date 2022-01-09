@@ -20,7 +20,7 @@ log = logging.getLogger()
 
 CLOUDPAYMENTS_PRODUCTS = {
     "club1": {
-        "code": "club1m",
+        "code": "club1",
         "description": "Месяц членства в Клубе",
         "amount": 1000,
         "recurrent": False,
@@ -30,7 +30,7 @@ CLOUDPAYMENTS_PRODUCTS = {
         },
     },
     "club3": {
-        "code": "club1m",
+        "code": "club3",
         "description": "3 месяца членства в Клубе",
         "amount": 2000,
         "recurrent": False,
@@ -40,7 +40,7 @@ CLOUDPAYMENTS_PRODUCTS = {
         },
     },
     "club12": {
-        "code": "club1m",
+        "code": "club12",
         "description": "Год членства в Клубе",
         "amount": 6000,
         "recurrent": False,
@@ -61,7 +61,7 @@ CLOUDPAYMENTS_PRODUCTS = {
         "regular": "monthly",
     },
     "club3_recurrent": {
-        "code": "club1",
+        "code": "club3",
         "description": "3 месяца членства в Клубе",
         "amount": 2000,
         "recurrent": False,
