@@ -1,12 +1,9 @@
-# https://wiki.wayforpay.com/ru/view/608996852
+# https://developers.cloudpayments.ru/#api
 
-import hashlib
-import hmac
 import base64
 import hashlib
 import hmac
 import logging
-import time
 from dataclasses import dataclass
 from datetime import timedelta
 from enum import Enum
@@ -15,15 +12,15 @@ from uuid import uuid4
 import requests
 from django.conf import settings
 from requests.auth import HTTPBasicAuth
-from users.models.user import User
 
 from payments.products import club_subscription_activator
+from users.models.user import User
 
 log = logging.getLogger()
 
 CLOUDPAYMENTS_PRODUCTS = {
     "club1": {
-        "code": "club1",
+        "code": "club1m",
         "description": "Месяц членства в Клубе",
         "amount": 1000,
         "recurrent": False,
@@ -32,24 +29,24 @@ CLOUDPAYMENTS_PRODUCTS = {
             "timedelta": timedelta(days=31),
         },
     },
+    "club3": {
+        "code": "club1m",
+        "description": "3 месяца членства в Клубе",
+        "amount": 2000,
+        "recurrent": False,
+        "activator": club_subscription_activator,
+        "data": {
+            "timedelta": timedelta(days=31 * 3),
+        },
+    },
     "club12": {
-        "code": "club12",
+        "code": "club1m",
         "description": "Год членства в Клубе",
-        "amount": 10000,
+        "amount": 6000,
         "recurrent": False,
         "activator": club_subscription_activator,
         "data": {
             "timedelta": timedelta(days=365),
-        },
-    },
-    "club180": {
-        "code": "club180",
-        "description": "15 лет членства в Клубе",
-        "amount": 100000,
-        "recurrent": False,
-        "activator": club_subscription_activator,
-        "data": {
-            "timedelta": timedelta(days=15 * 365),
         },
     },
     "club1_recurrent": {
@@ -63,10 +60,21 @@ CLOUDPAYMENTS_PRODUCTS = {
         },
         "regular": "monthly",
     },
+    "club3_recurrent": {
+        "code": "club1",
+        "description": "3 месяца членства в Клубе",
+        "amount": 2000,
+        "recurrent": False,
+        "activator": club_subscription_activator,
+        "data": {
+            "timedelta": timedelta(days=31 * 3),
+        },
+        "regular": "monthly",
+    },
     "club12_recurrent": {
         "code": "club12",
         "description": "Год членства в Клубе",
-        "amount": 10000,
+        "amount": 6000,
         "recurrent": False,
         "activator": club_subscription_activator,
         "data": {

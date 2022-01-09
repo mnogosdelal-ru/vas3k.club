@@ -8,10 +8,10 @@ from django.shortcuts import render, redirect
 
 from auth.helpers import auth_required
 from notifications.email.users import send_payed_email
+from payments.cloudpayments import CLOUDPAYMENTS_PRODUCTS, CloudPaymentsService, TransactionStatus
 from payments.models import Payment
 from payments.products import PRODUCTS, find_by_price_id
 from payments.service import stripe
-from payments.cloudpayments import CLOUDPAYMENTS_PRODUCTS, CloudPaymentsService, TransactionStatus
 from users.models.user import User
 
 log = logging.getLogger()
