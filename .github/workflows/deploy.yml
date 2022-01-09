@@ -3,7 +3,7 @@ name: Deploy production
 on:
   push:
     branches:
-      - club
+      - feature/cloudpayments
 
 jobs:
   build:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: 'club'
+          ref: 'feature/cloudpayments'
       - run: docker login ghcr.io -u glader -p ${{ secrets.TOKEN }}
       - run: docker pull ghcr.io/glader/mnogosdelal.club:latest
       - run: docker build -t ghcr.io/glader/mnogosdelal.club:latest --cache-from=ghcr.io/glader/mnogosdelal.club:latest .
@@ -30,7 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: 'club'
+          ref: 'feature/cloudpayments'
       - name: Make envfile
         run: export | grep "secret_" | sed "s/declare -x secret_//" > .env
         env:
@@ -60,6 +60,8 @@ jobs:
           secret_WAYFORPAY_SECRET: ${{ secrets.WAYFORPAY_SECRET }}
           secret_JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
           secret_WEBHOOK_SECRETS: ${{ secrets.WEBHOOK_SECRETS }}
+          secret_CLOUDPAYMENTS_API_ID: ${{ secrets.CLOUDPAYMENTS_API_ID }}
+          secret_CLOUDPAYMENTS_API_PASSWORD: ${{ secrets.CLOUDPAYMENTS_API_PASSWORD }}
       - run: echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ${{ env.SSH_KEY }} && chmod 600 ${{ env.SSH_KEY }}
       - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY }} .env ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/var/www/club/.env
       - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY }} docker-compose.production.yml ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/var/www/club/docker-compose.production.yml

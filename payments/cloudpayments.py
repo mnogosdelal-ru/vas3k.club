@@ -2,25 +2,30 @@
 
 import hashlib
 import hmac
+import base64
+import hashlib
+import hmac
 import logging
 import time
-from datetime import date, timedelta
+from dataclasses import dataclass
+from datetime import timedelta
 from enum import Enum
 from uuid import uuid4
 
 import requests
-from dataclasses import dataclass
 from django.conf import settings
+from requests.auth import HTTPBasicAuth
+from users.models.user import User
 
 from payments.products import club_subscription_activator
 
 log = logging.getLogger()
 
-WAYFORPAY_PRODUCTS = {
+CLOUDPAYMENTS_PRODUCTS = {
     "club1": {
         "code": "club1",
         "description": "Месяц членства в Клубе",
-        "amount": 1,
+        "amount": 1000,
         "recurrent": False,
         "activator": club_subscription_activator,
         "data": {
@@ -30,7 +35,7 @@ WAYFORPAY_PRODUCTS = {
     "club12": {
         "code": "club12",
         "description": "Год членства в Клубе",
-        "amount": 10,
+        "amount": 10000,
         "recurrent": False,
         "activator": club_subscription_activator,
         "data": {
@@ -40,7 +45,7 @@ WAYFORPAY_PRODUCTS = {
     "club180": {
         "code": "club180",
         "description": "15 лет членства в Клубе",
-        "amount": 100,
+        "amount": 100000,
         "recurrent": False,
         "activator": club_subscription_activator,
         "data": {
@@ -50,7 +55,7 @@ WAYFORPAY_PRODUCTS = {
     "club1_recurrent": {
         "code": "club1",
         "description": "Месяц членства в Клубе",
-        "amount": 1,
+        "amount": 1000,
         "recurrent": False,
         "activator": club_subscription_activator,
         "data": {
@@ -61,7 +66,7 @@ WAYFORPAY_PRODUCTS = {
     "club12_recurrent": {
         "code": "club12",
         "description": "Год членства в Клубе",
-        "amount": 10,
+        "amount": 10000,
         "recurrent": False,
         "activator": club_subscription_activator,
         "data": {
@@ -76,6 +81,7 @@ class TransactionStatus(Enum):
     PENDING = "Pending"
     REFUNDED = "Refunded"
     APPROVED = "Approved"
+    UNKNOWN = "Unknown"
 
 
 @dataclass
@@ -84,128 +90,61 @@ class Invoice:
     url: str
 
 
-class WayForPayService:
+class CloudPaymentsService:
     @classmethod
-    def create_payment(cls, product_code: str) -> Invoice:
-        product_data = WAYFORPAY_PRODUCTS[product_code]
+    def create_payment(cls, product_code: str, user: User) -> Invoice:
+        product_data = CLOUDPAYMENTS_PRODUCTS[product_code]
 
         order_id = uuid4().hex
 
         log.info("Try to create payment %s %s", product_code, order_id)
 
         payload = {
-            "merchantAccount": "4aff_club",
-            "merchantDomainName": "4aff.club",
-            "serviceUrl": "https://4aff.club/monies/wayforpay/webhook/",
-            "returnUrl": "https://4aff.club/intro/",
-            "orderReference": order_id,
-            "orderDate": int(time.time()),
-            "amount": product_data["amount"],
-            "currency": "USD",
-            "productName": [product_data["description"]],
-            "productPrice": [product_data["amount"]],
-            "productCount": [1],
+            "Amount": product_data["amount"],
+            "Currency": "RUB",
+            "Description": product_data["description"],
+            "RequireConfirmation": False,
+            "InvoiceId": order_id,
+            "SuccessRedirectUrl": "https://club.mnogosdelal.ru/intro/",
+            "Email": user.email,
         }
 
-        if "regular" in product_data:
-            payload.update({
-                "regularMode": product_data["regular"],
-                "regularOn": 1,
-                "dateNext": (date.today() + product_data["data"]["timedelta"]).strftime("%d.%m.%Y"),
-                "dateEnd": "01.01.2100",
-            })
-        else:
-            payload.update({
-                "regularMode": "client",
-            })
-
-        fields = (
-            "merchantAccount", "merchantDomainName", "orderReference", "orderDate", "amount", "currency",
-            "productName", "productCount", "productPrice",
+        response = requests.post(
+            "https://api.cloudpayments.ru/orders/create",
+            auth=HTTPBasicAuth(settings.CLOUDPAYMENTS_API_ID, settings.CLOUDPAYMENTS_API_PASSWORD),
+            data=payload,
         )
 
-        string = ";".join([
-            str(payload[field][0] if isinstance(payload[field], list) else payload[field])
-            for field in fields
-        ])
-        signature = hmac.new(settings.WAYFORPAY_SECRET.encode("utf-8"), string.encode("utf-8"), hashlib.md5).hexdigest()
-        payload["merchantSignature"] = signature
-
-        response = requests.post("https://secure.wayforpay.com/pay?behavior=offline", json=payload)
         log.info("Payment answer %s %s", response.status_code, response.text)
 
         response.raise_for_status()
 
         invoice = Invoice(
             id=order_id,
-            url=response.json()["url"],
+            url=response.json()["Model"]["Url"],
         )
         return invoice
 
     @classmethod
-    def create_invoice(cls, product_code: str) -> Invoice:
-        invoice_id = uuid4().hex
+    def verify_webhook(cls, request) -> bool:
+        log.info("Verify request")
 
-        log.info("Try to create invoice %s", product_code)
+        secret = bytes(settings.CLOUDPAYMENTS_API_PASSWORD, 'utf-8')
 
-        payload = {
-            "transactionType": "CREATE_INVOICE",
-            "merchantAccount": "4aff_club",
-            "merchantDomainName": "4aff.club",
-            "apiVersion": 1,
-            "serviceUrl": "https://4aff.club/monies/wayforpay/webhook/",
-            "orderReference": invoice_id,
-            "orderDate": int(time.time()),
-            "amount": 1,
-            "currency": "USD",
-            "orderTimeout": 24 * 60 * 60,
-            "productName": [WAYFORPAY_PRODUCTS[product_code]["description"]],
-            "productPrice": [WAYFORPAY_PRODUCTS[product_code]["amount"]],
-            "productCount": [1],
-        }
+        signature = base64.b64encode(hmac.new(secret, request.body, digestmod=hashlib.sha256).digest())
+        log.info('Signature %s against %s', signature, request.META.get('HTTP_CONTENT_HMAC'))
 
-        fields = (
-            "merchantAccount", "merchantDomainName", "orderReference", "orderDate", "amount", "currency",
-            "productName", "productCount", "productPrice",
-        )
-
-        string = ";".join([
-            str(payload[field][0] if isinstance(payload[field], list) else payload[field])
-            for field in fields
-        ])
-        signature = hmac.new(settings.WAYFORPAY_SECRET.encode("utf-8"), string.encode("utf-8"), hashlib.md5).hexdigest()
-        payload["merchantSignature"] = signature
-
-        response = requests.post("https://api.wayforpay.com/api", json=payload)
-        log.info("Invoice answer %s %s", response.status_code, response.text)
-
-        response.raise_for_status()
-
-        invoice = Invoice(
-            id=invoice_id,
-            url=response.json()["invoiceUrl"],
-        )
-        return invoice
+        return signature == bytes(request.META.get('HTTP_CONTENT_HMAC'), 'utf-8')
 
     @classmethod
-    def accept_invoice(cls, payload: dict) -> [TransactionStatus, dict]:
-        log.info("Accept invoice %r", payload)
+    def accept_payment(cls, action: str, payload: dict) -> [TransactionStatus, dict]:
+        log.info("Accept action %s, payment %r", action, payload)
 
-        now = int(time.time())
+        status = TransactionStatus.UNKNOWN
 
-        string = f"{payload['orderReference']};accept;{now}"
-        signature = hmac.new(settings.WAYFORPAY_SECRET.encode("utf-8"), string.encode("utf-8"), hashlib.md5).hexdigest()
-
-        status = {
-            TransactionStatus.APPROVED.value: TransactionStatus.APPROVED,
-            TransactionStatus.REFUNDED.value: TransactionStatus.REFUNDED,
-        }.get(payload['transactionStatus'], TransactionStatus.PENDING)
+        if action == 'pay':
+            status = TransactionStatus.APPROVED
 
         log.info("Status %s", status)
 
-        return status, {
-            "orderReference": payload["orderReference"],
-            "status": "accept",
-            "time": now,
-            "signature": signature,
-        }
+        return status, {"code": 0}

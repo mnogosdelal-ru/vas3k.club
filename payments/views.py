@@ -1,3 +1,4 @@
+import json
 import logging
 from datetime import datetime
 
@@ -6,9 +7,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from auth.helpers import auth_required
+from notifications.email.users import send_payed_email
 from payments.models import Payment
-from payments.products import PRODUCTS, find_by_price_id, TAX_RATE_VAT
+from payments.products import PRODUCTS, find_by_price_id
 from payments.service import stripe
+from payments.cloudpayments import CLOUDPAYMENTS_PRODUCTS, CloudPaymentsService, TransactionStatus
 from users.models.user import User
 
 log = logging.getLogger()
@@ -35,12 +38,13 @@ def pay(request):
     product_code = request.GET.get("product_code")
     is_invite = request.GET.get("is_invite")
     is_recurrent = request.GET.get("is_recurrent")
+    if product_code == "club180":
+        is_recurrent = False
     if is_recurrent:
-        interval = request.GET.get("recurrent_interval") or "yearly"
-        product_code = f"{product_code}_recurrent_{interval}"
+        product_code = f"{product_code}_recurrent"
 
     # find product by code
-    product = PRODUCTS.get(product_code)
+    product = CLOUDPAYMENTS_PRODUCTS.get(product_code)
     if not product:
         return render(request, "error.html", {
             "title": "Не выбран пакет 😣",
@@ -109,36 +113,19 @@ def pay(request):
     else:  # scenario 3: account renewal
         user = request.me
 
-    # reuse stripe customer ID if user already has it
-    if user.stripe_id:
-        customer_data = dict(customer=user.stripe_id)
-    else:
-        customer_data = dict(customer_email=user.email)
-
     # create stripe session and payment (to keep track of history)
-    session = stripe.checkout.Session.create(
-        payment_method_types=["card"],
-        line_items=[{
-            "price": product["stripe_id"],
-            "quantity": 1,
-            "tax_rates": [TAX_RATE_VAT] if TAX_RATE_VAT else [],
-        }],
-        **customer_data,
-        mode="subscription" if is_recurrent else "payment",
-        metadata=payment_data,
-        success_url=settings.STRIPE_SUCCESS_URL,
-        cancel_url=settings.STRIPE_CANCEL_URL,
-    )
+    pay_service = CloudPaymentsService()
+    invoice = pay_service.create_payment(product_code, user)
 
     payment = Payment.create(
-        reference=session.id,
+        reference=invoice.id,
         user=user,
         product=product,
         data=payment_data,
     )
 
     return render(request, "payments/pay.html", {
-        "session": session,
+        "invoice": invoice,
         "product": product,
         "payment": payment,
         "user": user,
@@ -218,3 +205,32 @@ def stripe_webhook(request):
         return HttpResponse("[ok]", status=200)
 
     return HttpResponse("[unknown event]", status=400)
+
+
+def cloudpayments_webhook(request):
+    pay_service = CloudPaymentsService()
+    is_verified = pay_service.verify_webhook(request)
+
+    if not is_verified:
+        # TODO: на время начальной работы игнорируем ошибки верификации
+        log.error("Request is not varified %r", request.POST)
+
+    action = request.GET["action"]
+    payload = request.POST
+
+    status, answer = pay_service.accept_payment(action, payload)
+
+    if status == TransactionStatus.APPROVED:
+        payment = Payment.finish(
+            reference=payload["InvoiceId"],
+            status=Payment.STATUS_SUCCESS,
+            data=payload,
+        )
+
+        product = CLOUDPAYMENTS_PRODUCTS[payment.product_code]
+        product["activator"](product, payment, payment.user)
+
+        if payment.user.moderation_status != User.MODERATION_STATUS_APPROVED:
+            send_payed_email(payment.user)
+
+    return HttpResponse(json.dumps(answer))
