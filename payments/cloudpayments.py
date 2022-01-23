@@ -19,35 +19,110 @@ from users.models.user import User
 log = logging.getLogger()
 
 CLOUDPAYMENTS_PRODUCTS = {
-    "club1": {
-        "code": "club1",
-        "description": "Месяц членства в Клубе",
-        "amount": 1000,
+    "club1month_elementcharge": {
+        "code": "club1month_elementcharge",
+        "description": "1 месяц членства в Клубе (тариф: заряд протона)",
+        "amount": 160.22,
         "recurrent": False,
         "activator": club_subscription_activator,
         "data": {
             "timedelta": timedelta(days=31),
         },
     },
-    "club3": {
-        "code": "club3",
-        "description": "3 месяца членства в Клубе",
-        "amount": 2000,
+    "club1month_light": {
+        "code": "club1month_light",
+        "description": "1 месяц членства в Клубе (тариф: скорость света)",
+        "amount": 299.79,
         "recurrent": False,
         "activator": club_subscription_activator,
         "data": {
-            "timedelta": timedelta(days=31 * 3),
+            "timedelta": timedelta(days=31),
         },
     },
-    "club12": {
-        "code": "club12",
-        "description": "Год членства в Клубе",
-        "amount": 6000,
+    "club1month_bohrrad": {
+        "code": "club1month_bohrrad",
+        "description": "1 месяц членства в Клубе (тариф: боровский радиус)",
+        "amount": 529.18,
         "recurrent": False,
         "activator": club_subscription_activator,
         "data": {
-            "timedelta": timedelta(days=365),
+            "timedelta": timedelta(days=31),
         },
+    },
+    "club1month_planck": {
+        "code": "club1month_planck",
+        "description": "1 месяц членства в Клубе (тариф: постоянная Планка)",
+        "amount": 662.6,
+        "recurrent": False,
+        "activator": club_subscription_activator,
+        "data": {
+            "timedelta": timedelta(days=31),
+        },
+    },
+    "club1month_electronmass": {
+        "code": "club1month_electronmass",
+        "description": "1 месяц членства в Клубе (тариф: масса электрона)",
+        "amount": 910.94,
+        "recurrent": False,
+        "activator": club_subscription_activator,
+        "data": {
+            "timedelta": timedelta(days=31),
+        },
+    },
+    "club1month_elementcharge_recurrent": {
+        "code": "club1month_elementcharge",
+        "description": "1 месяц членства в Клубе (тариф: заряд протона)",
+        "amount": 160.22,
+        "recurrent": False,
+        "activator": club_subscription_activator,
+        "data": {
+            "timedelta": timedelta(days=31),
+        },
+        "regular": "monthly",
+    },
+    "club1month_light_recurrent": {
+        "code": "club1month_light",
+        "description": "1 месяц членства в Клубе (тариф: скорость света)",
+        "amount": 299.79,
+        "recurrent": False,
+        "activator": club_subscription_activator,
+        "data": {
+            "timedelta": timedelta(days=31),
+        },
+        "regular": "monthly",
+    },
+    "club1month_bohrrad_recurrent": {
+        "code": "club1month_bohrrad",
+        "description": "1 месяц членства в Клубе (тариф: боровский радиус)",
+        "amount": 529.18,
+        "recurrent": False,
+        "activator": club_subscription_activator,
+        "data": {
+            "timedelta": timedelta(days=31),
+        },
+        "regular": "monthly",
+    },
+    "club1month_planck_recurrent": {
+        "code": "club1month_planck",
+        "description": "1 месяц членства в Клубе (тариф: постоянная Планка)",
+        "amount": 662.6,
+        "recurrent": False,
+        "activator": club_subscription_activator,
+        "data": {
+            "timedelta": timedelta(days=31),
+        },
+        "regular": "monthly",
+    },
+    "club1month_electronmass_recurrent": {
+        "code": "club1month_electronmass",
+        "description": "1 месяц членства в Клубе (тариф: масса электрона)",
+        "amount": 910.94,
+        "recurrent": False,
+        "activator": club_subscription_activator,
+        "data": {
+            "timedelta": timedelta(days=31),
+        },
+        "regular": "monthly",
     },
     "club1_recurrent": {
         "code": "club1",
