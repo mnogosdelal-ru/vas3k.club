@@ -17,7 +17,10 @@
         <form action="{% url "pay" %}" method="get">
 
         <div class="join-subtitle" id="select_package">Пакет брать будем?</div>
-
+        <center>
+        Цена <b>разная</b>, а длительность <b>одинаковая</b><br/>
+        думаю, что это будет индикатором полезности клуба<br/><br/><br/>
+        </center>
         {% include "payments/blocks/packages.html" %}
 
         <div class="join-subtitle">Ваш e-mail</div>
