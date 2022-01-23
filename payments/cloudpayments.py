@@ -1,4 +1,4 @@
-# https://developers.cloudpayments.ru/#api
+# https://developers.cloudpayments.ru/api
 
 import base64
 import hashlib
@@ -190,6 +190,32 @@ class CloudPaymentsService:
             "InvoiceId": order_id,
             "SuccessRedirectUrl": "https://club.mnogosdelal.ru/intro/",
             "Email": user.email,
+            "JsonData": {
+                "CloudPayments": {
+                    "CustomerReceipt": {
+                        "Items": [
+                            {
+                                "label": product_data["description"],
+                                "price": product_data["amount"],
+                                "quantity": 1.00,
+                                "amount": product_data["amount"],
+                                "vat": 0,
+                                "method": 0,
+                                "object": 0,
+                                "measurementUnit": "шт",
+                            },
+                        ],
+                        "email": user.email,
+                        "amounts":
+                        {
+                            "electronic": product_data["amount"],
+                            "advancePayment": 0,
+                            "credit": 0,
+                            "provision": 0,
+                        },
+                    },
+                },
+            },
         }
 
         response = requests.post(
