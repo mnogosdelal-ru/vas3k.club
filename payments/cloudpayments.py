@@ -1,4 +1,4 @@
-# https:# developers.cloudpayments.ru/#api
+# https://developers.cloudpayments.ru/api
 
 import base64
 import hashlib
@@ -113,7 +113,7 @@ class CloudPaymentsService:
             "Description": product_data["description"],
             "RequireConfirmation": False,
             "InvoiceId": order_id,
-            "SuccessRedirectUrl": "https:# club.mnogosdelal.ru/intro/",
+            "SuccessRedirectUrl": "https://club.mnogosdelal.ru/intro/",
             "Email": user.email,
             "JsonData": {
                 "CloudPayments": {
@@ -144,7 +144,7 @@ class CloudPaymentsService:
         }
 
         response = requests.post(
-            "https:# api.cloudpayments.ru/orders/create",
+            "https://api.cloudpayments.ru/orders/create",
             auth=HTTPBasicAuth(settings.CLOUDPAYMENTS_API_ID, settings.CLOUDPAYMENTS_API_PASSWORD),
             data=payload,
         )
