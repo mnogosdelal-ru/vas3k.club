@@ -104,6 +104,9 @@
         .pay-package-name {
 
         }
+        .pay-package-note {
+            font-size: 65%;
+        }
 
         .pay-package-image {
             font-size: 56px;
