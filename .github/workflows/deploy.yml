@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: 'club
+          ref: club
       - run: docker login ghcr.io -u glader -p ${{ secrets.TOKEN }}
       - run: docker pull ghcr.io/glader/mnogosdelal.club:latest || true
       - run: docker build -t ghcr.io/glader/mnogosdelal.club:latest -t ghcr.io/glader/mnogosdelal.club:$GITHUB_SHA --cache-from=ghcr.io/glader/mnogosdelal.club:latest .
@@ -31,7 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: 'club'
+          ref: club
       - name: Make envfile
         run: export | grep "secret_" | sed "s/declare -x secret_//" > .env
         env:
