@@ -219,6 +219,9 @@ class CloudPaymentsService:
             }
         }
 
+        if "regular" in product_data:
+            pass
+
         response = requests.post(
             "https://api.cloudpayments.ru/orders/create",
             auth=HTTPBasicAuth(settings.CLOUDPAYMENTS_API_ID, settings.CLOUDPAYMENTS_API_PASSWORD),
