@@ -206,22 +206,23 @@ class CloudPaymentsService:
                             },
                         ],
                         "email": user.email,
+                        "calculationPlace": "club.mnogosdelal.ru",
                         "amounts":
                         {
                             "electronic": product_data["amount"],
                             "advancePayment": 0,
                             "credit": 0,
-                            "provision": 0,
-                        },
-                    },
-                },
-            },
+                            "provision": 0
+                        }
+                    }
+                }
+            }
         }
 
         response = requests.post(
             "https://api.cloudpayments.ru/orders/create",
             auth=HTTPBasicAuth(settings.CLOUDPAYMENTS_API_ID, settings.CLOUDPAYMENTS_API_PASSWORD),
-            data=payload,
+            json=payload,
         )
 
         log.info("Payment answer %s %s", response.status_code, response.text)
