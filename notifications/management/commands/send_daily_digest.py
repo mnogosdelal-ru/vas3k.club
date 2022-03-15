@@ -37,7 +37,6 @@ class Command(BaseCommand):
                 continue
 
             # render user digest using a special html endpoint
-            digest_url = "https://club.mnogosdelal.ru" + reverse("render_daily_digest", kwargs={"user_slug": user.slug})
             self.stdout.write(f"Generating digest for user: {user.slug}")
 
             try:
