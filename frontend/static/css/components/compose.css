@@ -36,10 +36,15 @@
 
         .compose-type-name {
             display: block;
-            font-size: 120%;
+            font-size: 140%;
             font-weight: 500;
         }
 
+        .compose-type-name-comment {
+            display: block;
+            font-size: 80%;
+            font-weight: 200;
+        }
     .compose-posts-header {
         text-align: center;
         padding-top: 50px;
