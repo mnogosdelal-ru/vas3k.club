@@ -43,6 +43,7 @@ jobs:
           secret_EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
           secret_EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
           secret_EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+          secret_DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
           secret_TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           secret_TELEGRAM_BOT_URL: ${{ secrets.TELEGRAM_BOT_URL }}
           secret_TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
