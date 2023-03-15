@@ -28,7 +28,7 @@ class ProfileEditForm(ModelForm):
     )
     bio = forms.CharField(
         label="Ссылочки на себя и всякое такое",
-        required=False,
+        required=True,
         max_length=1024,
         widget=forms.Textarea(attrs={"maxlength": 1024}),
     )
@@ -42,11 +42,6 @@ class ProfileEditForm(ModelForm):
         required=True,
         max_length=128
     )
-    contact = forms.CharField(
-        label="Контакт для связи",
-        required=True,
-        max_length=256,
-    )
 
     class Meta:
         model = User
@@ -57,7 +52,6 @@ class ProfileEditForm(ModelForm):
             "city",
             "country",
             "bio",
-            "contact",
         ]
 
 

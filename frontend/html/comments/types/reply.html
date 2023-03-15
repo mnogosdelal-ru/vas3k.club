@@ -23,6 +23,10 @@
                 {{ comment.author.full_name }}
             </a>
 
+            {% if comment.author_id in user_notes %}
+                <span class="comment-header-author-note">{{ user_notes|lookup:comment.author_id|truncatechars:50 }}</span>
+            {% endif %}
+
             <a href="#comment-{{ comment.id }}" class="reply-date">
                 {{ comment.created_at | cool_date }}
             </a>
@@ -58,7 +62,7 @@
                                 initial-is-voted
                                 initial-upvote-timestamp="{{comment.upvoted_at}}"
                              {% endif %}
-                             {% if not me|can_upvote:comment or upvote_disabled %}is-disabled{% endif %}
+                             {% if not me|can_upvote_comment:comment or upvote_disabled %}is-disabled{% endif %}
                              is-inline>
             </comment-upvote>
         </div>
@@ -83,9 +87,11 @@
                 <a href="{% url "edit_comment" comment.id %}" class="comment-footer-button reply-button-hidden"><i class="fas fa-edit"></i></a>
             {% endif %}
 
+	    {% if me and me.is_active_membership and comment.post.is_commentable %}
             <span class="comment-footer-button" v-on:click="showReplyForm('{{ reply_to.id }}', '{{ comment.author.slug }}', true)">
                 <i class="fas fa-reply"></i>&nbsp;ответить
             </span>
+	    {% endif %}
         </div>
         <div class="reply-replies thread-collapse-toggle">
             {% if replies %}

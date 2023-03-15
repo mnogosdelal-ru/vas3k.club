@@ -9,6 +9,7 @@ import App from "./App.js";
 import ClubApi from "./common/api.service.js";
 import { pluralize } from "./common/utils.js";
 import { handleCommentThreadCollapseToggle } from "./common/comments.js";
+import vSelect from "vue-select";
 
 Vue.component("post-upvote", () => import("./components/PostUpvote.vue"));
 Vue.component("post-bookmark", () => import("./components/PostBookmark.vue"));
@@ -19,12 +20,13 @@ Vue.component("user-expertise-window", () => import("./components/UserExpertiseW
 Vue.component("user-tag", () => import("./components/UserTag.vue"));
 Vue.component("people-map", () => import("./components/PeopleMap.vue"));
 Vue.component("user-avatar-input", () => import("./components/UserAvatarInput.vue"));
-Vue.component("sidebar-toggler", () => import("./components/SidebarToggler.vue"));
 Vue.component("stripe-checkout-button", () => import("./components/StripeCheckoutButton.vue"));
 Vue.component("input-length-counter", () => import("./components/InputLengthCounter.vue"));
 Vue.component("friend-button", () => import("./components/FriendButton.vue"));
 Vue.component("comment-scroll-arrow", () => import("./components/CommentScrollArrow.vue"));
 Vue.component("comment-markdown-editor", () => import("./components/CommentMarkdownEditor.vue"));
+Vue.component("v-select", vSelect);
+Vue.component("multi-select", () => import("./components/MultiSelect.vue"));
 
 // Since our pages have user-generated content, any fool can insert "{{" on the page and break it.
 // We have no other choice but to completely turn off template matching and leave it on only for components.

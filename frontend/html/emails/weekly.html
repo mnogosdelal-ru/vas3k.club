@@ -9,7 +9,8 @@
     <meta property="og:site_name" content="Вастрик.Клуб" />
     <meta property="og:title" content="Клубный журнал. Итоги недели. Выпуск #{{ issue_number }}" />
     <meta property="og:type" content="article" />
-    <meta property="og:description" content="На этой неделе у нас +{{ newbie_count }} {{ newbie_count|rupluralize:"новый член,новых члена,новых членов" }} Клуба. Всего за неделю написали {{ post_count }} {{ post_count | rupluralize:"пост,поста,постов" }}." />
+    <meta property="og:description" content="{{ og_description }}" />
+
     <meta property="og:image" content="{{ og_image_url }}" />
 {% endblock %}
 
@@ -140,6 +141,18 @@
                 </div>
             </div>
         {% endfor %}
+    {% endif %}
+
+    {% if pro_tip %}
+        <br><br><br>
+
+        <h2>💡 Про-тип:<br>{{ pro_tip.title }}</h2>
+
+        <div class="block">
+            <p>
+                {{ pro_tip.text | markdown }}
+            </p>
+        </div>
     {% endif %}
 
     {% if featured_post %}
