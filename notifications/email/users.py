@@ -1,6 +1,6 @@
 from django.template import loader, TemplateDoesNotExist
 
-from auth.models import Code
+from authn.models.session import Code
 from bot.handlers.common import UserRejectReason
 from notifications.email.sender import send_club_email
 from users.models.user import User
@@ -13,6 +13,26 @@ def send_payed_email(user: User):
         subject=f"Оплата прошла",
         html=payment_template.render({"user": user}),
         tags=["payment"]
+    )
+
+
+def send_registration_email(user: User):
+    registration_template = loader.get_template("emails/registration.html")
+    send_club_email(
+        recipient=user.email,
+        subject=f"Ваше приглашение 🪪",
+        html=registration_template.render({"user": user}),
+        tags=["registration"]
+    )
+
+
+def send_renewal_email(user: User):
+    renewal_template = loader.get_template("emails/renewal.html")
+    send_club_email(
+        recipient=user.email,
+        subject=f"Ваша подписка стала еще длинее!",
+        html=renewal_template.render({"user": user}),
+        tags=["renewal"]
     )
 
 
@@ -64,11 +84,11 @@ def send_banned_email(user: User, days: int, reason: str):
     if not user.is_banned or not days:
         return  # not banned oO
 
-    rejected_template = loader.get_template("emails/banned.html")
+    banned_template = loader.get_template("emails/banned.html")
     send_club_email(
         recipient=user.email,
         subject=f"💩 Вас забанили",
-        html=rejected_template.render({
+        html=banned_template.render({
             "user": user,
             "days": days,
             "reason": reason,
@@ -78,11 +98,11 @@ def send_banned_email(user: User, days: int, reason: str):
 
 
 def send_ping_email(user: User, message: str):
-    rejected_template = loader.get_template("emails/ping.html")
+    ping_template = loader.get_template("emails/ping.html")
     send_club_email(
         recipient=user.email,
         subject=f"👋 Вам письмо",
-        html=rejected_template.render({"message": message}),
+        html=ping_template.render({"message": message}),
         tags=["ping"]
     )
 

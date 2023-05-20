@@ -4,12 +4,57 @@ import pytz
 from django import forms
 from django.contrib.postgres.forms import SimpleArrayField
 from django.core.exceptions import ValidationError
+from slugify import slugify_filename
 
+from common.regexp import EMOJI_RE
 from common.url_metadata_parser import parse_url_preview
 from posts.models.post import Post
 from posts.models.topics import Topic
 from common.forms import ImageUploadField
+from tags.models import Tag
 from users.models.user import User
+
+
+class CollectibleTagField(forms.CharField):
+    widget = forms.TextInput(attrs={
+        "minlength": 5,
+        "maxlength": 32,
+        "title": "Тег обязан начинаться с emoji, потом пробел, а потом название не длиннее 32 символов"
+    })
+
+    def prepare_value(self, value):
+        if value:
+            tag = Tag.objects.filter(code=value).first()
+            if tag:
+                return tag.name
+        return value
+
+    def to_python(self, value):
+        if not value:
+            return None
+
+        if " " not in value:
+            raise ValidationError("Тег обязан начинаться с emoji, потом идёт пробел, потом название")
+
+        tag_emoji, tag_text = value.split(" ", 1)
+        if not EMOJI_RE.match(tag_emoji):
+            raise ValidationError("Тег обязан начинаться с emoji")
+
+        if not tag_text:
+            raise ValidationError("Название тега не может быть пустым")
+
+        tag_code = slugify_filename(value).lower()
+        if not tag_code:
+            return None
+
+        tag, _ = Tag.objects.get_or_create(
+            code=tag_code,
+            defaults=dict(
+                name=value,
+                group=Tag.GROUP_COLLECTIBLE,
+            )
+        )
+        return tag.code
 
 
 class PostForm(forms.ModelForm):
@@ -18,6 +63,11 @@ class PostForm(forms.ModelForm):
         required=False,
         empty_label="Для всех",
         queryset=Topic.objects.filter(is_visible=True).all(),
+    )
+    collectible_tag_code = CollectibleTagField(
+        label="Прикрепить коллекционный тег",
+        max_length=32,
+        required=False,
     )
     is_public = forms.ChoiceField(
         label="Виден ли в большой интернет?",
@@ -38,13 +88,21 @@ class PostForm(forms.ModelForm):
 
         return topic
 
-    def validate_coauthors(self, cleaned_data):
-        non_existing_coauthors = [coauthor for coauthor in cleaned_data.get("coauthors", [])
-                                  if not User.objects.filter(slug=coauthor).exists()]
-        if non_existing_coauthors:
-            raise ValidationError({"coauthors": "Несуществующие пользователи: {}".format(', '.join(non_existing_coauthors))})
-        self.instance.coauthors = cleaned_data["coauthors"]
+    def clean_coauthors(self):
+        coauthors = [coauthor.replace("@", "", 1) for coauthor in self.cleaned_data.get("coauthors")]
+        if not coauthors:
+            return []
 
+        seen = set()
+        duplicated_coauthors = [coauthor for coauthor in coauthors if coauthor in seen or seen.add(coauthor)]
+        if duplicated_coauthors:
+            raise ValidationError("Пользователи уже соавторы: {}".format(', '.join(duplicated_coauthors)))
+
+        non_existing_coauthors = [coauthor for coauthor in coauthors if not User.objects.filter(slug=coauthor).exists()]
+        if non_existing_coauthors:
+            raise ValidationError("Несуществующие пользователи: {}".format(', '.join(non_existing_coauthors)))
+
+        return coauthors
 
 
 class PostTextForm(PostForm):
@@ -75,12 +133,14 @@ class PostTextForm(PostForm):
 
     class Meta:
         model = Post
-        fields = ["title", "text", "topic", "is_public", "coauthors"]
-
-    def clean(self):
-        cleaned_data = super().clean()
-        self.validate_coauthors(cleaned_data)
-        return cleaned_data
+        fields = [
+            "title",
+            "text",
+            "topic",
+            "coauthors",
+            "collectible_tag_code",
+            "is_public",
+        ]
 
 
 class PostLinkForm(PostForm):
@@ -120,7 +180,8 @@ class PostLinkForm(PostForm):
             "text",
             "url",
             "topic",
-            "is_public"
+            "collectible_tag_code",
+            "is_public",
         ]
 
     def clean(self):
@@ -128,7 +189,10 @@ class PostLinkForm(PostForm):
 
         parsed_url = parse_url_preview(cleaned_data.get("url"))
         if parsed_url:
-            self.instance.metadata = dict(parsed_url._asdict())
+            self.instance.metadata = {
+                **(self.instance.metadata or {}),
+                **dict(parsed_url._asdict())
+            }
             self.instance.url = parsed_url.url
             self.instance.image = parsed_url.favicon
 
@@ -164,6 +228,7 @@ class PostQuestionForm(PostForm):
             "title",
             "text",
             "topic",
+            "collectible_tag_code",
             "is_public"
         ]
 
@@ -195,7 +260,8 @@ class PostIdeaForm(PostForm):
             "title",
             "text",
             "topic",
-            "is_public"
+            "collectible_tag_code",
+            "is_public",
         ]
 
 
@@ -291,6 +357,13 @@ class PostEventForm(PostForm):
             }
         ),
     )
+    coauthors = SimpleArrayField(
+        forms.CharField(max_length=32),
+        max_length=10,
+        label="Соавторы поста",
+        required=False,
+    )
+
 
     class Meta:
         model = Post
@@ -298,6 +371,8 @@ class PostEventForm(PostForm):
             "title",
             "text",
             "topic",
+            "coauthors",
+            "collectible_tag_code",
             "is_public"
         ]
 
@@ -320,14 +395,17 @@ class PostEventForm(PostForm):
             raise ValidationError({"event_day": "Несуществующая дата"})
 
         self.instance.metadata = {
-            "event": {
-                "day": cleaned_data["event_day"],
-                "month": cleaned_data["event_month"],
-                "time": str(cleaned_data["event_time"]),
-                "timezone": cleaned_data["event_timezone"],
-                "utc_offset": datetime.now(pytz.timezone(cleaned_data["event_timezone"]))
-                .utcoffset().total_seconds() // 60,
-                "location": cleaned_data["event_location"],
+            **(self.instance.metadata or {}),
+            **{
+                "event": {
+                    "day": cleaned_data["event_day"],
+                    "month": cleaned_data["event_month"],
+                    "time": str(cleaned_data["event_time"]),
+                    "timezone": cleaned_data["event_timezone"],
+                    "utc_offset": datetime.now(pytz.timezone(cleaned_data["event_timezone"]))
+                    .utcoffset().total_seconds() // 60,
+                    "location": cleaned_data["event_location"],
+                }
             }
         }
         return cleaned_data
@@ -388,6 +466,12 @@ class PostProjectForm(PostForm):
             }
         ),
     )
+    coauthors = SimpleArrayField(
+        forms.CharField(max_length=32),
+        max_length=10,
+        label="Соавторы поста",
+        required=False,
+    )
 
     class Meta:
         model = Post
@@ -397,7 +481,9 @@ class PostProjectForm(PostForm):
             "topic",
             "url",
             "image",
-            "is_public"
+            "coauthors",
+            "collectible_tag_code",
+            "is_public",
         ]
 
 
@@ -443,7 +529,8 @@ class PostBattleForm(PostForm):
         fields = [
             "text",
             "topic",
-            "is_public"
+            "collectible_tag_code",
+            "is_public",
         ]
 
     def clean(self):
@@ -551,12 +638,14 @@ class PostGuideForm(PostForm):
 
     class Meta:
         model = Post
-        fields = ["title", "text", "topic", "is_public", "coauthors"]
-
-    def clean(self):
-        cleaned_data = super().clean()
-        self.validate_coauthors(cleaned_data)
-        return cleaned_data
+        fields = [
+            "title",
+            "text",
+            "topic",
+            "coauthors",
+            "collectible_tag_code",
+            "is_public",
+        ]
 
 
 class PostThreadForm(PostForm):
@@ -590,10 +679,24 @@ class PostThreadForm(PostForm):
             }
         ),
     )
+    coauthors = SimpleArrayField(
+        forms.CharField(max_length=32),
+        max_length=10,
+        label="Соавторы поста",
+        required=False,
+    )
 
     class Meta:
         model = Post
-        fields = ["title", "text", "comment_template", "topic", "is_public"]
+        fields = [
+            "title",
+            "text",
+            "comment_template",
+            "topic",
+            "coauthors",
+            "collectible_tag_code",
+            "is_public",
+        ]
 
 class PostCRTForm(PostForm):
     def __init__(self, *args, **kwargs):

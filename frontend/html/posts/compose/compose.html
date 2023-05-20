@@ -6,7 +6,24 @@
 
 {% block content %}
     <div class="content compose">
-        <div class="content-header">Что пишем?</div>
+        {% if not me.telegram_id %}
+            <div class="block">
+                <div class="block-header">☝️ Перед тем, как писать</div>
+
+                <div class="block-description block-description-center">
+                    Чтобы писать посты в Клуб, нужно <a href="{% url "edit_bot" me.slug %}">привязать бота</a> к своему профилю.
+                    Через него будут приходить уведомления о комментария и наградах, а если пост не пройдет модерацию — бот расскажет почему.
+                    Без бота будет совсем ничего не понятно.
+                </div>
+
+                <div class="block-description block-description-center">
+                    <a href="{% url "edit_bot" me.slug %}" target="_blank" class="button button-blue">
+                        Привязать бота
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="content-header">Что пишем?</div>
 
         <div class="block compose-types">
             <a href="{% url "compose_type" "post" %}" class="compose-type">
