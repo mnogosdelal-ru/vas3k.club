@@ -200,32 +200,3 @@ def stripe_webhook(request):
         return HttpResponse("[ok]", status=200)
 
     return HttpResponse("[unknown event]", status=400)
-
-
-def cloudpayments_webhook(request):
-    pay_service = CloudPaymentsService()
-    is_verified = pay_service.verify_webhook(request)
-
-    if not is_verified:
-        # TODO: на время начальной работы игнорируем ошибки верификации
-        log.error("Request is not varified %r", request.POST)
-
-    action = request.GET["action"]
-    payload = request.POST
-
-    status, answer = pay_service.accept_payment(action, payload)
-
-    if status == TransactionStatus.APPROVED:
-        payment = Payment.finish(
-            reference=payload["InvoiceId"],
-            status=Payment.STATUS_SUCCESS,
-            data=payload,
-        )
-
-        product = CLOUDPAYMENTS_PRODUCTS[payment.product_code]
-        product["activator"](product, payment, payment.user)
-
-        if payment.user.moderation_status != User.MODERATION_STATUS_APPROVED:
-            send_payed_email(payment.user)
-
-    return HttpResponse(json.dumps(answer))

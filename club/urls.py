@@ -27,8 +27,9 @@ from notifications.views import render_weekly_digest, email_unsubscribe, email_c
 from notifications.webhooks import webhook_event
 from payments.views.common import membership_expired
 from payments.api import api_gift_days
-from payments.views.stripe import pay, done, stripe_webhook, stop_subscription, cloudpayments_webhook
+from payments.views.stripe import pay, done, stripe_webhook, stop_subscription
 from payments.views.crypto import crypto, coinbase_webhook
+from payments.views.cloudpayments import cloudpayments_webhook
 from posts.api import md_show_post, api_show_post, json_feed
 from posts.models.post import Post
 from posts.rss import NewPostsRss
