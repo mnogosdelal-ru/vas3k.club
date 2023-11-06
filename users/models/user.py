@@ -208,6 +208,9 @@ class User(models.Model, ModelDiffMixin):
 
     @property
     def is_active_membership(self):
+        if settings.FREE_MEMBERSHIP:
+            return True
+
         return self.membership_expires_at >= datetime.utcnow()
 
     @property
