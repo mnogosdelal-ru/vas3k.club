@@ -272,7 +272,7 @@ TELEGRAM_BOT_WEBHOOK_URL = "https://club.mnogosdelal.ru/telegram/webhook/"
 TELEGRAM_BOT_WEBHOOK_HOST = "0.0.0.0"
 TELEGRAM_BOT_WEBHOOK_PORT = 8816
 
-FREE_MEMBERSHIP = False
+FREE_MEMBERSHIP = True
 
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY") or ""
 STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY") or ""
