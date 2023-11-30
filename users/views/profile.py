@@ -93,6 +93,7 @@ def profile(request, user_slug):
         "muted": muted,
         "note": note,
         "moderator_notes": moderator_notes,
+        "FREE_MEMBERSHIP": settings.FREE_MEMBERSHIP,
     })
 
 
@@ -207,5 +208,3 @@ def delete_expertise(request, expertise):
         }
 
     return {"status": "ok"}
-
-

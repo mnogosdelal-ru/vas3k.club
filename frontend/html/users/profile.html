@@ -53,7 +53,10 @@
                     </span>
                 </div>
                 <a href="{% url "edit_payments" user.slug %}" class="profile-status">
-                    {% if user.membership_days_left < 150 %}
+                    {% if FREE_MEMBERSHIP %}
+                        <span class="profile-status-number">💎 ∞</span>
+                        <span class="profile-status-text">лет</span>
+                    {% elif user.membership_days_left < 150 %}
                         <span class="profile-status-number">{% if user.membership_days_left < 10 %}😱{% else %}😋{% endif %} {{ user.membership_days_left | ceil | cool_number }}</span>
                         <span class="profile-status-text">{{ user.membership_days_left | ceil | rupluralize:"день,дня,дней" }}</span>
                     {% elif user.membership_days_left <= 730 %}
