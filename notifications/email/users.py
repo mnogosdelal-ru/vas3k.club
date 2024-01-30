@@ -10,7 +10,7 @@ def send_payed_email(user: User):
     payment_template = loader.get_template("emails/payment_done.html")
     send_club_email(
         recipient=user.email,
-        subject=f"Оплата прошла",
+        subject=f"Вы зарегистрированы",
         html=payment_template.render({"user": user}),
         tags=["payment"]
     )
