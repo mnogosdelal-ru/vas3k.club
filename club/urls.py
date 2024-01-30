@@ -71,7 +71,7 @@ urlpatterns = [
         no=landing,
     ), name="landing"),
 
-    path("join/", join, name="join"),
+    # path("join/", join, name="join"),
     path("auth/login/", login, name="login"),
     path("auth/logout/", logout, name="logout"),
     path("auth/patreon/", patreon_sync, name="patreon_sync"),
