@@ -18,7 +18,7 @@
 
     <link rel="alternate" type="application/rss+xml"
           title="Джедайские Клуб: Новые посты"
-          href="{% url "rss" %}{% if me %}?hash={{ me.secret_hash }}{% endif %}" />
+          href="{% url "rss" %}{% if me %}{% endif %}" />
 
     {% block og_tags %}
         {% include "common/og.html" %}
