@@ -143,7 +143,6 @@ If you think you've found a critical vulnerability that should not be exposed to
 
 Please do not test vulnerabilities in public. If you start spamming the website with "test-test-test" posts or comments, our moderators will ban you even if you had good intentions.
 
-
 ## 👍 Our top contributors
 
 Take some time to press F and give some respects to our [best contributors](https://github.com/vas3k/vas3k.club/graphs/contributors), who spent their own time to make the club better.
