@@ -121,7 +121,7 @@
                             <a href="{% url "show_post" post.type post.slug %}" class="p-name post-title-link">
                                 {% if post.prefix %}{{ post.prefix }} {% endif %}{{ post.title | rutypography }}
                             </a>
-                            <ul><li>{{ post.text|truncatewords:15 }}</li></ul>
+                            <ul><li>{{ post.html|striptags|truncatewords:15 }}</li></ul>
                         </li>
                     {% endfor %}
                 </ul>
