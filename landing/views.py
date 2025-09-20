@@ -12,6 +12,7 @@ from club.exceptions import AccessDenied
 from landing.forms import GodmodeNetworkSettingsEditForm, GodmodeDigestEditForm, GodmodeInviteForm
 from landing.models import GodSettings
 from notifications.email.invites import send_invited_email
+from posts.models.post import Post
 from users.models.user import User
 
 EXISTING_DOCS = [
@@ -31,8 +32,11 @@ def landing(request):
         }
         cache.set("landing_stats", stats, settings.LANDING_CACHE_TIMEOUT)
 
+    public_posts = Post.objects.filter(is_public=True).exclude(type=Post.TYPE_INTRO).order_by("-published_at")[:5]
+
     return render(request, "landing.html", {
-        "stats": stats
+        "stats": stats,
+        "public_posts": public_posts,
     })
 
 
