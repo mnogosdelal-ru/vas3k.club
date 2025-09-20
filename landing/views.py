@@ -32,7 +32,14 @@ def landing(request):
         }
         cache.set("landing_stats", stats, settings.LANDING_CACHE_TIMEOUT)
 
-    public_posts = Post.objects.filter(is_public=True).exclude(type=Post.TYPE_INTRO).order_by("-published_at")[:5]
+    public_posts = (
+        Post.visible_objects()
+        .filter(is_visible_in_feeds=True)
+        .filter(is_public=True)
+        .exclude(type=Post.TYPE_INTRO)
+        .exclude(is_shadow_banned=True)
+        .order_by("-last_activity_at")[:5]
+    )
 
     return render(request, "landing.html", {
         "stats": stats,
