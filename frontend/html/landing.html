@@ -115,7 +115,7 @@
                 <ul>
                     {% for post in public_posts %}
                         <li>
-                            <a href="{% url "show_post" post.type post.slug %}" class="p-name post-title-link">
+                            <a href="{% url "show_post" post.type post.slug %}">
                                 {% if post.prefix %}{{ post.prefix }} {% endif %}{{ post.title | rutypography }}
                             </a>
                             <ul><li>{{ post.html|striptags|truncatewords:15 }}</li></ul>
