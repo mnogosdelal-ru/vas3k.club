@@ -57,7 +57,14 @@ def private_message(update: Update, context: CallbackContext) -> None:
 
 def main() -> None:
     # Initialize telegram
-    updater = Updater(settings.TELEGRAM_TOKEN, use_context=True)
+    updater = Updater(
+        settings.TELEGRAM_TOKEN,
+        use_context=True,
+        request_kwargs={
+            "proxy_url": settings.TELEGRAM_PROXY_URL,
+            "urllib3_proxy_kwargs": {"secret": settings.TELEGRAM_PROXY_SECRET},
+        },
+    )
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher

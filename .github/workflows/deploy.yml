@@ -47,6 +47,8 @@ jobs:
           secret_TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           secret_TELEGRAM_BOT_URL: ${{ secrets.TELEGRAM_BOT_URL }}
           secret_TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
+          secret_TELEGRAM_PROXY_URL: ${{ secrets.TELEGRAM_PROXY_URL }}
+          secret_TELEGRAM_PROXY_SECRET: ${{ secrets.TELEGRAM_PROXY_SECRET }}
           secret_TELEGRAM_CLUB_CHANNEL_URL: ${{ secrets.TELEGRAM_CLUB_CHANNEL_URL }}
           secret_TELEGRAM_CLUB_CHANNEL_ID: ${{ secrets.TELEGRAM_CLUB_CHANNEL_ID }}
           secret_TELEGRAM_CLUB_CHAT_URL: ${{ secrets.TELEGRAM_CLUB_CHAT_URL }}
