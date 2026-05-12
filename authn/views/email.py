@@ -22,7 +22,7 @@ def email_login(request):
         return redirect("login")
 
     goto = request.POST.get("goto")
-    email_or_login = request.POST.get("email_or_login")
+    email_or_login = request.POST.get("asvcdsvsafvcasf")
     if not email_or_login:
         return redirect("login")
 
